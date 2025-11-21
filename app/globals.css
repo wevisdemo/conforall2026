@@ -53,6 +53,18 @@
   --text-heading-03-d: 66px;
   --leading-heading-03-d: 100%;
 
+/* color */
+  --color-green-1: #2AB15B;
+  --color-green-2: #5ED477;
+  --color-yellow-1: #F6E954;
+  --color-yellow-2: #5ED477;
+  --color-neutral: #000000;
+  --color-base-100: #FFFFFF;
+  --color-base-200: #ECECEC;
+  --color-base-300: #898989;
+  --color-accent: #FF6694;
+
+
 }
 
 /* Body Typography Utilities */
@@ -219,7 +231,7 @@ a:hover {
   @apply text-black underline;
 }
 a:visited {
-  @apply text-lightgray;
+  @apply text-zinc-500;
 }
 
 body {
