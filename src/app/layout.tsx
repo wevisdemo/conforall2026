@@ -5,7 +5,7 @@ import "./globals.css";
 const fcMinimal = localFont({
   src: [
     {
-      path: "../public/fonts/FC Minimal Bold.ttf",
+      path: "../../public/fonts/FC Minimal Bold.ttf",
       weight: "700",
       style: "normal",
     },
@@ -16,12 +16,12 @@ const fcMinimal = localFont({
 const ibmPlexSansThaiLooped = localFont({
   src: [
     {
-      path: "../public/fonts/IBMPlexSansThaiLooped-Regular.ttf",
+      path: "../../public/fonts/IBMPlexSansThaiLooped-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/IBMPlexSansThaiLooped-SemiBold.ttf",
+      path: "../../public/fonts/IBMPlexSansThaiLooped-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
