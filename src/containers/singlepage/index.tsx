@@ -1,43 +1,41 @@
-import Container from "@/src/components/Container";
-import Image from "next/image";
+import SectionBanner from "./components/SectionBanner";
+import SectionDetail from "./components/SectionDetail";
+import SectionDreamCon from "./components/SectionDreamCon";
+import SectionFaq from "./components/SectionFaq";
+import SectionFooter from "./components/SectionFooter";
+import SectionMap from "./components/SectionMap";
+import SectionNew from "./components/SectionNew";
 
 export default function HomePage() {
   return (
-    <div className="bg-green-1">
-      <Container className="flex min-h-screen items-center justify-center font-sans">
-        <div>
-          <Image
-            className="dark:invert"
-            src="/next.svg"
-            alt="Next.js logo"
-            width={100}
-            height={20}
-            priority
-          />
-          <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-            <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50 ">
-              To get started, edit the page.tsx file.
-            </h1>
-            <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400 typo-body-01-semibold">
-              เส้นทางสู่ประชามติ รัฐธรรมนูญใหม่ ต้องการคุณ{" "}
-              <a
-                href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                className="font-medium text-zinc-950 dark:text-zinc-50"
-              >
-                Templates
-              </a>{" "}
-              or the{" "}
-              <a
-                href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                className="font-medium text-zinc-950 dark:text-zinc-50"
-              >
-                Learning
-              </a>{" "}
-              center.
-            </p>
-          </div>
-        </div>
-      </Container>
+    <div>
+      <section>
+        <SectionBanner />
+      </section>
+
+      <section>
+        <SectionDetail />
+      </section>
+
+      <section>
+        <SectionMap />
+      </section>
+
+      <section>
+        <SectionFaq />
+      </section>
+
+      <section>
+        <SectionNew />
+      </section>
+
+      <section>
+        <SectionDreamCon />
+      </section>
+
+      <section>
+        <SectionFooter />
+      </section>
     </div>
   );
 }
