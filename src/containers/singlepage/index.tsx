@@ -1,3 +1,4 @@
+"use client";
 import SectionBanner from "./components/SectionBanner";
 import SectionDetail from "./components/SectionDetail";
 import SectionDreamCon from "./components/SectionDreamCon";
