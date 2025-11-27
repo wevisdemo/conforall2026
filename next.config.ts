@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
   images: {
     remotePatterns: [
       {
@@ -10,6 +11,14 @@ const nextConfig: NextConfig = {
         pathname: "/wp-content/uploads/**",
       },
     ],
+  },
+  turbopack: {
+    rules: {
+      "*.geojson": {
+        loaders: ["json-loader"],
+        as: "*.json",
+      },
+    },
   },
 };
 

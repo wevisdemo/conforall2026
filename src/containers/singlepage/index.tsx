@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import SectionBanner from "./components/SectionBanner";
 import SectionDetail from "./components/SectionDetail";
 import SectionDreamCon from "./components/SectionDreamCon";

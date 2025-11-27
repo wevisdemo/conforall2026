@@ -1,6 +1,9 @@
 import Container from "@/src/components/Container";
-import Image from "next/image";
-import React from "react";
+import dynamic from "next/dynamic";
+
+const MapComponent = dynamic(() => import("./SectiontestMap"), {
+  ssr: false,
+});
 
 const SectionMap = () => {
   return (
@@ -18,6 +21,7 @@ const SectionMap = () => {
               มีจุดรณรงค์แล้วใน xxx เขต
             </p>
           </div>
+          <MapComponent />
         </div>
       </Container>
     </div>
