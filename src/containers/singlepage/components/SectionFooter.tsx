@@ -25,11 +25,11 @@ const SectionFooter = () => {
             aliquet diam morbi velit. Phasellus arcu pharetra nulla amet. Lacus
             iaculis consequat senectus in.
           </p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5 ">
             <p className="typo-body-03-semibold text-neutral text-center">
               Partners
             </p>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap justify-center">
               <div className="p-2 bg-base-200 flex items-center justify-center">
                 <p className="typo-body-02-normal text-base-300">logo</p>
               </div>

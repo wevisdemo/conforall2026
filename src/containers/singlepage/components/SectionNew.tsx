@@ -45,7 +45,7 @@ const SectionNew = () => {
           <p className="typo-body-03-semibold text-base-100">จาก xx องค์กร</p>
         </div>
       </Container>
-      <div className="mt-10 md:w-full w-[90vw] overflow-x-scroll mx-auto">
+      <div className="mt-10 md:w-[90vw] w-[90vw] overflow-x-scroll mx-auto">
         <div className="flex gap-2.5 w-max">
           {posts.map((post) => (
             <div

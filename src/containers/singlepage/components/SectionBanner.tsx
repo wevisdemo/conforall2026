@@ -1,12 +1,30 @@
 import Container from "@/src/components/Container";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const SectionBanner = () => {
+  const router = useRouter();
+
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareText = "เส้นทางสู่ประชามติ รัฐธรรมนูญใหม่ ต้องการคุณ";
+
+  const handleShare = (platform: "facebook" | "x" | "line") => {
+    const encodedUrl = encodeURIComponent(shareUrl);
+    const encodedText = encodeURIComponent(shareText);
+
+    const shareLinks = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`,
+      line: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}`,
+    };
+
+    window.open(shareLinks[platform], "_blank", "width=600,height=400");
+  };
   return (
     <div className="bg-green-1">
-      <Container className="min-h-screen flex justify-center md:max-w-[1000px]!">
-        <div className="md:flex items-center gap-10">
+      <Container className="md:min-h-screen min-h-fit flex justify-center md:max-w-[1000px]!">
+        <div className="md:flex items-center gap-10 md:py-0 py-10">
           <Image
             src="/images/banner-logo.svg"
             alt="Referendum Logo"
@@ -23,7 +41,10 @@ const SectionBanner = () => {
             <div className="w-full">
               <div className="grid grid-cols-2 gap-[5px]">
                 <div className="col-span-1">
-                  <div className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full">
+                  <div
+                    className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer"
+                    onClick={() => router.push("#detail")}
+                  >
                     <p className="typo-body-03-semibold mt-2.5 mb-2.5 ml-4 mr-4 text-neutral">
                       ต้องกาอย่างไร?
                     </p>
@@ -37,8 +58,11 @@ const SectionBanner = () => {
                   </div>
                 </div>
                 <div className="col-span-1">
-                  <div className="flex flex-col gap-[5px]">
-                    <div className="bg-base-100 border-2 border-base-100 rounded-lg  hover:border-2 hover:border-neutral transition-all">
+                  <div className="flex flex-col gap-[5px] h-full">
+                    <div
+                      className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit h-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
+                      onClick={() => router.push("#map")}
+                    >
                       <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                         <p className="typo-body-03-semibold text-neutral">
                           ค้นหา
@@ -54,7 +78,7 @@ const SectionBanner = () => {
                         />
                       </div>
                     </div>
-                    <div className="bg-base-100 border-2 border-base-100 rounded-lg  hover:border-2 hover:border-neutral transition-all">
+                    <div className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit h-full hover:border-2 hover:border-neutral transition-all cursor-pointer">
                       <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                         <p className="typo-body-03-semibold text-neutral">
                           สมัครเป็น
@@ -74,7 +98,10 @@ const SectionBanner = () => {
                 </div>
               </div>
               <div className="mt-[5px] flex flex-col gap-[5px]">
-                <div className="bg-green-2 border-2 border-green-2 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full">
+                <div
+                  className="bg-green-2 border-2 border-green-2 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer"
+                  onClick={() => router.push("#faq")}
+                >
                   <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                     <p className="typo-body-03-semibold  text-neutral">
                       คำถามที่พบบ่อย
@@ -88,7 +115,10 @@ const SectionBanner = () => {
                     />
                   </div>
                 </div>
-                <div className="bg-green-2 border-2 border-green-2 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full">
+                <div
+                  className="bg-green-2 border-2 border-green-2 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer"
+                  onClick={() => router.push("#new")}
+                >
                   <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                     <p className="typo-body-03-semibold text-neutral">
                       ข้อเสนอรัฐธรรมนูญใหม่
@@ -107,6 +137,33 @@ const SectionBanner = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex gap-2.5 justify-center items-center mt-4">
+              <p className="typo-body-01-semibold text-neutral">แชร์</p>
+              <Image
+                src="/icons/facebook.svg"
+                alt="Share on Facebook"
+                width={32}
+                height={32}
+                className="object-contain cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => handleShare("facebook")}
+              />
+              <Image
+                src="/icons/x.svg"
+                alt="Share on X"
+                width={32}
+                height={32}
+                className="object-contain cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => handleShare("x")}
+              />
+              <Image
+                src="/icons/line.svg"
+                alt="Share on Line"
+                width={32}
+                height={32}
+                className="object-contain cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => handleShare("line")}
+              />
             </div>
           </div>
         </div>

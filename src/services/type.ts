@@ -37,3 +37,40 @@ export interface Post {
     "wp:featuredmedia"?: FeaturedMedia[];
   };
 }
+
+export interface FaqItem {
+  category: string;
+  question: string;
+  answer: string;
+}
+
+export interface MapItem {
+  name?: string;
+  tel: string;
+  detail?: string;
+  name_location?: string;
+  map_url?: string;
+  map_detail?: string;
+  date?: string;
+}
+
+export interface ProvinceInfo {
+  pro_code: string;
+  pro_th: string;
+  pro_en: string;
+  reg_nesdb: string;
+  reg_royin: string;
+}
+
+export interface ECTInfo {
+  P_name: string;
+  CONS_no: number;
+  ID_name: string;
+}
+
+export interface MapItemWithProvince extends MapItem {
+  lat?: number;
+  lng?: number;
+  province?: ProvinceInfo | null;
+  name_id?: string | null;
+}

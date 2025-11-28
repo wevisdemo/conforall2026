@@ -1,29 +1,108 @@
 "use client";
 
-import React, { useState } from "react";
-import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { GeoJsonObject, Feature } from "geojson";
+import { MapItemWithProvince } from "@/src/services/type";
 
-// Fix for default marker icons
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+// Dynamically import react-leaflet components with SSR disabled
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const GeoJSON = dynamic(
+  () => import("react-leaflet").then((mod) => mod.GeoJSON),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-});
+// useMap hook needs to be imported directly since it's a hook
+import { useMap } from "react-leaflet";
 
-// Component to fit map bounds to GeoJSON data
-function FitBounds({ data }: { data: GeoJsonObject }) {
+// Custom marker icon
+const createCustomIcon = (nameId: string | null | undefined) => {
+  if (typeof window === "undefined") return undefined;
+
+  // Extract number from name_id (e.g., 'กรุงเทพมหานคร_2' → '2')
+  const number = nameId?.split("_").pop() || "";
+
+  return L.divIcon({
+    className: "custom-marker",
+    html: `
+      <div class="marker-pin">
+        <span class="marker-number">${number}</span>
+      </div>
+    `,
+    iconSize: [36, 44],
+    iconAnchor: [18, 44],
+    popupAnchor: [0, -44],
+  });
+};
+
+// Add custom marker styles
+if (typeof window !== "undefined") {
+  const style = document.createElement("style");
+  style.textContent = `
+    .custom-marker {
+      background: transparent;
+      border: none;
+    }
+    .marker-pin {
+      width: 22px;
+      height: 22px;
+      position: relative;
+      background: #fff;
+     border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #000;
+    }
+    .marker-pin::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+
+    }
+    .marker-number {
+
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+
+    }
+    .marker-pin:hover {
+     border: 2px solid #000;
+      transition: all 0.2s ease;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Component to fit map bounds on initial load only
+function FitBoundsOnLoad({ data }: { data: GeoJsonObject | null }) {
   const map = useMap();
+  const hasInitialized = React.useRef(false);
 
   React.useEffect(() => {
-    if (data) {
+    // Only fit bounds on initial load
+    if (data && !hasInitialized.current) {
+      hasInitialized.current = true;
       const geoJsonLayer = L.geoJSON(data);
       const bounds = geoJsonLayer.getBounds();
       if (bounds.isValid()) {
@@ -35,11 +114,122 @@ function FitBounds({ data }: { data: GeoJsonObject }) {
   return null;
 }
 
-export default function GeoJSONMap() {
+// Component to handle zoom when province is selected
+function ZoomToSelection({
+  selectedFeature,
+  geoData,
+}: {
+  selectedFeature: Feature | null;
+  geoData: GeoJsonObject | null;
+}) {
+  const map = useMap();
+  const prevSelectedRef = React.useRef<Feature | null | undefined>(undefined);
+
+  React.useEffect(() => {
+    // Skip initial mount (when prevSelectedRef is undefined)
+    if (prevSelectedRef.current === undefined) {
+      prevSelectedRef.current = selectedFeature;
+      return;
+    }
+
+    // Only act if selection actually changed
+    if (
+      prevSelectedRef.current?.properties?.pro_code ===
+      selectedFeature?.properties?.pro_code
+    ) {
+      return;
+    }
+
+    prevSelectedRef.current = selectedFeature;
+
+    if (selectedFeature) {
+      // Zoom to the selected province
+      const geoJsonLayer = L.geoJSON(selectedFeature);
+      const bounds = geoJsonLayer.getBounds();
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [20, 20], maxZoom: 12 });
+      }
+    } else if (geoData) {
+      // Reset to full view when deselected
+      const geoJsonLayer = L.geoJSON(geoData);
+      const bounds = geoJsonLayer.getBounds();
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [50, 50] });
+      }
+    }
+  }, [selectedFeature, geoData, map]);
+
+  return null;
+}
+
+export default function GeoJSONMap({
+  mapPoints,
+}: {
+  mapPoints: MapItemWithProvince[];
+}) {
   const [geoData, setGeoData] = useState<GeoJsonObject | null>(null);
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
+  const [selectedMarkerIndex, setSelectedMarkerIndex] = useState<number | null>(
+    null
+  );
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchRef = React.useRef<HTMLDivElement>(null);
+
+  // Ensure component only renders map on client side
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Get provinces list from geoData
+  const provinces = React.useMemo(() => {
+    if (!geoData || geoData.type !== "FeatureCollection") return [];
+    const featureCollection = geoData as GeoJSON.FeatureCollection;
+    return featureCollection.features
+      .map((feature) => ({
+        feature,
+        pro_th: feature.properties?.pro_th as string,
+        pro_en: feature.properties?.pro_en as string,
+        pro_code: feature.properties?.pro_code as string,
+      }))
+      .sort((a, b) => a.pro_th?.localeCompare(b.pro_th, "th"));
+  }, [geoData]);
+
+  // Filter provinces based on search query
+  const filteredProvinces = React.useMemo(() => {
+    if (!searchQuery.trim()) return provinces;
+    const query = searchQuery.toLowerCase();
+    return provinces.filter(
+      (p) =>
+        p.pro_th?.toLowerCase().includes(query) ||
+        p.pro_en?.toLowerCase().includes(query)
+    );
+  }, [provinces, searchQuery]);
+
+  // Handle province selection from search
+  const handleSelectProvince = (province: (typeof provinces)[0]) => {
+    setSelectedFeature(province.feature);
+    setSearchQuery(province.pro_th);
+    setShowDropdown(false);
+    setSelectedMarkerIndex(null);
+  };
 
   // Load GeoJSON file on mount
   React.useEffect(() => {
@@ -56,13 +246,26 @@ export default function GeoJSONMap() {
       });
   }, []);
 
+  // Filter markers based on selected province
+  const filteredMapPoints = selectedFeature
+    ? mapPoints.filter(
+        (point) =>
+          point.province?.pro_code === selectedFeature.properties?.pro_code
+      )
+    : [];
+
   // Style function for GeoJSON features
   const geoJSONStyle = (feature?: Feature) => {
+    const isSelected =
+      selectedFeature?.properties?.pro_code === feature?.properties?.pro_code;
+    const mapMarker = mapPoints.find(
+      (point) => point.province?.pro_code === feature?.properties?.pro_code
+    );
     return {
-      fillColor: "#3b82f6",
-      fillOpacity: 0.4,
-      color: "#1e40af",
-      weight: 2,
+      fillColor: mapMarker ? "#F6E954" : "#fff",
+      fillOpacity: isSelected ? 0.8 : 0.5,
+      color: isSelected ? "#000" : "#000",
+      weight: isSelected ? 3 : 2,
       opacity: 0.8,
     };
   };
@@ -70,20 +273,6 @@ export default function GeoJSONMap() {
   // Event handlers for GeoJSON features
   // Event handlers for GeoJSON features
   const onEachFeature = (feature: Feature, layer: L.Layer) => {
-    // Create popup content from properties
-    // if (feature.properties) {
-    //   const properties = Object.entries(feature.properties)
-    //     .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-    //     .join("<br>");
-
-    //   layer.bindPopup(`
-    //     <div class="p-2 max-w-xs">
-    //       <h3 class="font-bold mb-2">Feature Properties</h3>
-    //       <div class="text-sm">${properties || "No properties"}</div>
-    //     </div>
-    //   `);
-    // }
-
     // Add hover and click effects
     layer.on({
       mouseover: (e) => {
@@ -101,18 +290,21 @@ export default function GeoJSONMap() {
           layer.setStyle(geoJSONStyle(feature));
         }
       },
-      click: (e) => {
-        setSelectedFeature(feature);
+      click: () => {
+        // Toggle selection - deselect if clicking the same province
+        const isSameProvince =
+          selectedFeature?.properties?.pro_code ===
+          feature.properties?.pro_code;
 
-        // Zoom to the clicked feature
-        const clickedLayer = e.target;
-        if (clickedLayer.getBounds) {
-          const bounds = clickedLayer.getBounds();
-          e.target._map.fitBounds(bounds, {
-            padding: [50, 50],
-            maxZoom: 10,
-          });
+        if (isSameProvince) {
+          setSelectedFeature(null);
+          setSearchQuery("");
+        } else {
+          setSelectedFeature(feature);
+          setSearchQuery(feature.properties?.pro_th || "");
         }
+        // Reset selected marker when province changes
+        setSelectedMarkerIndex(null);
       },
     });
   };
@@ -123,107 +315,264 @@ export default function GeoJSONMap() {
   };
 
   return (
-    <div className="h-[500px] w-[450px] flex flex-col bg-gray-50 rounded-md border-2 border-neutral">
+    <div className="w-full md:h-[500px] h-fit grid md:grid-cols-2 grid-cols-1 gap-5">
       {/* Map Container */}
-      <div className="flex-1 relative">
-        {!geoData ? (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
-              <svg
-                className="w-16 h-16 mx-auto mb-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+      <div className="col-span-1 h-[500px] w-full flex flex-col bg-gray-50 rounded-md border-2 border-neutral">
+        <div className="flex-1 relative">
+          {!isMounted || (!geoData && mapPoints.length === 0) ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
+                <svg
+                  className="w-16 h-16 mx-auto mb-4 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                  />
+                </svg>
+                <h2 className="text-xl font-bold text-gray-800 mb-2">
+                  No Data Loaded
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Upload a GeoJSON file or load from a URL to get started
+                </p>
+                <div className="text-sm text-gray-500">
+                  Supported formats: .json, .geojson
+                </div>
+              </div>
+            </div>
+          ) : (
+            <MapContainer center={[0, 0]} zoom={4} className="h-full w-full">
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+
+              {geoData && (
+                <GeoJSON
+                  key={selectedFeature?.properties?.pro_code || "all"}
+                  data={geoData}
+                  style={geoJSONStyle}
+                  onEachFeature={onEachFeature}
+                  pointToLayer={pointToLayer}
                 />
-              </svg>
-              <h2 className="text-xl font-bold text-gray-800 mb-2">
-                No Data Loaded
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Upload a GeoJSON file or load from a URL to get started
-              </p>
-              <div className="text-sm text-gray-500">
-                Supported formats: .json, .geojson
-              </div>
-            </div>
-          </div>
-        ) : (
-          <MapContainer center={[0, 0]} zoom={2} className="h-full w-full">
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              )}
+
+              {/* Render markers for selected province */}
+              {filteredMapPoints
+                .filter((point) => point.lat && point.lng)
+                .map((point, index) => (
+                  <Marker
+                    key={index}
+                    position={[point.lat!, point.lng!]}
+                    icon={createCustomIcon(point.name_id)}
+                    eventHandlers={{
+                      click: () => {
+                        setSelectedMarkerIndex(
+                          selectedMarkerIndex === index ? null : index
+                        );
+                      },
+                    }}
+                  />
+                ))}
+
+              <FitBoundsOnLoad data={geoData} />
+              <ZoomToSelection
+                selectedFeature={selectedFeature}
+                geoData={geoData}
+              />
+            </MapContainer>
+          )}
+        </div>
+      </div>
+      {/* Search Container */}
+      <div className="col-span-1 md:h-[500px] h-fit w-full ">
+        <div className="flex flex-col gap-2.5 w-full">
+          <div className="relative w-full" ref={searchRef}>
+            <img
+              src="/icons/search-input.svg"
+              alt="search"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 z-10"
             />
-
-            <GeoJSON
-              data={geoData}
-              style={geoJSONStyle}
-              onEachFeature={onEachFeature}
-              pointToLayer={pointToLayer}
+            <input
+              type="text"
+              placeholder="ค้นด้วยชื่อจังหวัด"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowDropdown(true);
+              }}
+              onFocus={() => setShowDropdown(true)}
+              className="w-full h-[45px] typo-body-03-normal rounded-lg bg-base-200 pl-10 pr-3 py-2.5 text-neutral"
             />
-
-            <FitBounds data={geoData} />
-          </MapContainer>
-        )}
-
-        {/* Feature Details Panel */}
-        {selectedFeature && (
-          <div className="absolute top-4 right-4 bg-white rounded-lg shadow-xl p-4 max-w-sm max-h-96 overflow-auto z-[1000]">
-            <div className="flex justify-between items-start mb-3">
-              <h3 className="font-bold text-lg text-neutral">
-                Feature Details
-              </h3>
+            {/* Clear button */}
+            {searchQuery && (
               <button
-                onClick={() => setSelectedFeature(null)}
-                className="text-gray-500 hover:text-gray-700 text-xl leading-none"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedFeature(null);
+                  setSelectedMarkerIndex(null);
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
-                ✕
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <div className="text-sm font-semibold text-gray-600 mb-1">
-                  Geometry Type
-                </div>
-                <div className="text-sm bg-gray-100 px-2 py-1 rounded">
-                  {selectedFeature.geometry.type}
-                </div>
+            )}
+            {/* Dropdown */}
+            {showDropdown && filteredProvinces.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-[300px] overflow-y-auto z-20">
+                {filteredProvinces.map((province, index) => (
+                  <button
+                    key={province.pro_code || index}
+                    onClick={() => handleSelectProvince(province)}
+                    className={`w-full px-4 py-2.5 text-left hover:bg-base-200 transition-colors ${
+                      selectedFeature?.properties?.pro_code ===
+                      province.pro_code
+                        ? "bg-green-50 text-green-700"
+                        : "text-neutral"
+                    }`}
+                  >
+                    <span className="typo-body-03-normal">
+                      {province.pro_th}
+                    </span>
+                    <span className="typo-body-03-normal text-base-300 ml-2">
+                      ({province.pro_en})
+                    </span>
+                  </button>
+                ))}
               </div>
+            )}
+            {/* No results */}
+            {showDropdown && searchQuery && filteredProvinces.length === 0 && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-20">
+                <p className="typo-body-03-normal text-base-300 text-center">
+                  ไม่พบจังหวัดที่ค้นหา
+                </p>
+              </div>
+            )}
+          </div>
+          <p className="typo-body-03-normal text-base-300">หรือ กดจากแผนที่</p>
 
-              {selectedFeature.properties &&
-                Object.keys(selectedFeature.properties).length > 0 && (
-                  <div>
-                    <div className="text-sm font-semibold text-gray-600 mb-1">
-                      Properties
-                    </div>
-                    <div className="text-sm space-y-1">
-                      {Object.entries(selectedFeature.properties).map(
-                        ([key, value]) => (
-                          <div
-                            key={key}
-                            className="bg-gray-50 px-2 py-1 rounded"
-                          >
-                            <span className="font-medium text-neutral">
-                              {key}:
-                            </span>{" "}
-                            <span className="text-gray-700">
-                              {String(value)}
-                            </span>
-                          </div>
-                        )
-                      )}
+          {/* Selected marker data */}
+          {selectedMarkerIndex !== null &&
+            filteredMapPoints[selectedMarkerIndex] && (
+              <div className="p-4 bg-base-100 rounded-lg border-2 border-base-200 h-full">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-center gap-1">
+                    <p className="typo-body-01-semibold text-neutral">
+                      เขตเลือกตั้งที่
+                    </p>
+                    <div className="w-6 h-6 border-2 border-neutral rounded-full flex items-center justify-center">
+                      <p className="typo-body-01-semibold text-neutral">
+                        {filteredMapPoints[selectedMarkerIndex].name_id
+                          ?.split("_")
+                          .pop()}
+                      </p>
                     </div>
                   </div>
-                )}
-            </div>
-          </div>
-        )}
+
+                  <button
+                    onClick={() => setSelectedMarkerIndex(null)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="flex flex-col gap-[5px]">
+                  {filteredMapPoints[selectedMarkerIndex].name_location && (
+                    <p className="typo-body-03-semibold text-neutral mb-2">
+                      {filteredMapPoints[selectedMarkerIndex].name_location}
+                    </p>
+                  )}
+                  {filteredMapPoints[selectedMarkerIndex].date && (
+                    <div>
+                      <p className="typo-body-01-semibold text-neutral">
+                        วันและเวลาที่เปิด
+                      </p>
+                      <p className="typo-body-02-normal text-neutral">
+                        {filteredMapPoints[selectedMarkerIndex].date}
+                      </p>
+                    </div>
+                  )}
+                  {filteredMapPoints[selectedMarkerIndex].map_detail && (
+                    <div>
+                      <p className="typo-body-01-semibold text-neutral">
+                        อธิบายการเดินทาง
+                      </p>
+                      <p className="typo-body-02-normal text-neutral">
+                        {filteredMapPoints[selectedMarkerIndex].map_detail}
+                      </p>
+                    </div>
+                  )}
+                  {filteredMapPoints[selectedMarkerIndex].map_url && (
+                    <a
+                      href={filteredMapPoints[selectedMarkerIndex].map_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="typo-link-02 text-green-1 underline"
+                    >
+                      ดูแผนที่
+                    </a>
+                  )}
+                  <p className="typo-body-01-normal text-base-300">
+                    หรือติดต่อ
+                  </p>
+                  {filteredMapPoints[selectedMarkerIndex].name && (
+                    <p className="typo-body-02-semibold text-base-300">
+                      {filteredMapPoints[selectedMarkerIndex].name}
+                    </p>
+                  )}
+                  {filteredMapPoints[selectedMarkerIndex].tel && (
+                    <ul className="flex flex-col gap-[5px]">
+                      <li className="flex items-center  gap-1">
+                        <div className="w-1.5 h-1.5 bg-base-300 rounded-full mx-2"></div>
+                        <p className="typo-body-02-normal text-base-300">
+                          {filteredMapPoints[selectedMarkerIndex].tel}
+                        </p>
+                      </li>
+                      {filteredMapPoints[selectedMarkerIndex].detail && (
+                        <li className="flex items-center  gap-1">
+                          <div className="w-1.5 h-1.5 bg-base-300 rounded-full mx-2"></div>
+                          <p className="typo-body-02-normal text-base-300">
+                            {filteredMapPoints[selectedMarkerIndex].detail}
+                          </p>
+                        </li>
+                      )}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            )}
+        </div>
       </div>
     </div>
   );

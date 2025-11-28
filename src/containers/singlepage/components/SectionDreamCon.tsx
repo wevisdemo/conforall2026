@@ -29,10 +29,19 @@ const SectionDreamCon = () => {
             เราจึงอยากชวนทุกคนนำความคิดฝันที่หลากหลายมาวางไว้ให้กลายเป็นเรื่องราวเดียว
             แล้วส่งต่อให้ผู้มีหน้าที่ในการร่างรัฐธรรมนูญใหม่นำไปประกอบขึ้นเป็นร่างของประชาชนอย่างแท้จริง
           </p>
-          <div className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all w-full">
-            <p className="typo-body-03-semibold mt-2.5 mb-2.5 ml-4 mr-4 text-neutral">
-              ร่วมส่งเสียงเลย!
-            </p>
+          <div className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all w-full cursor-pointer">
+            <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
+              <p className="typo-body-03-semibold  text-base-100">
+                ร่วมส่งเสียงเลย!
+              </p>
+              <Image
+                src="/icons/export-w.svg"
+                alt="FAQ Icon"
+                width={16}
+                height={16}
+                className="h-4"
+              />
+            </div>
           </div>
         </div>
       </Container>

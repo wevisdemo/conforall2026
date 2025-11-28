@@ -1,11 +1,19 @@
 import Container from "@/src/components/Container";
+import { MapItemWithProvince } from "@/src/services/type";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const MapComponent = dynamic(() => import("./SectiontestMap"), {
   ssr: false,
 });
 
-const SectionMap = () => {
+interface SectionMapProps {
+  map: MapItemWithProvince[];
+}
+
+const SectionMap = ({ map }: SectionMapProps) => {
+  // Data now comes with lat, lng, and province already processed
+
   return (
     <div className="bg-base-100">
       <Container className="py-20">
@@ -17,11 +25,48 @@ const SectionMap = () => {
             <p className="typo-body-03-normal text-neutral">
               เพื่อรับแผ่นพับและร่วมกิจกรรมต่างๆ xxxxxxxxxxxxxxxxxxxxxxx
             </p>
-            <p className="typo-heading-mobile-01 text-neutral">
-              มีจุดรณรงค์แล้วใน xxx เขต
-            </p>
+            <div className="flex flex-col gap-2.5 items-center justify-center">
+              <p className="typo-heading-mobile-01 text-neutral">
+                มีจุดรณรงค์แล้วใน xxx เขต
+              </p>
+              <p className="typo-body-03-semibold text-neutral">
+                จาก 400 เขตเลือกตั้งทั่วประเทศ
+              </p>
+              <div className="flex items-center justify-center gap-[5px]">
+                <div className="w-3.5 h-3.5 bg-yellow-1 border border-neutral"></div>
+                <p className="typo-body-02-normal text-neutral">มีจุดรณรงค์</p>
+
+                <div className="w-3.5 h-3.5 bg-green-1 border border-neutral"></div>
+                <p className="typo-body-02-normal text-neutral">มีครบทุกเขต</p>
+
+                <div className="w-3.5 h-3.5 bg-base-100 border border-neutral"></div>
+                <p className="typo-body-02-normal text-neutral">ยังไม่มี</p>
+              </div>
+            </div>
           </div>
-          <MapComponent />
+
+          <MapComponent mapPoints={map} />
+
+          <div className="bg-neutral border-2 border-neutral w-full rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer ">
+            <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
+              <div>
+                <p className="typo-body-03-semibold  text-base-100">
+                  สมัครเป็นจุดรณรงค์
+                </p>
+                <p className="typo-body-02-normal text-base-100">
+                  เพื่อเป็นศูนย์กลางกระจายแคมเปญประจำเขตเลือกตั้งของคุณ
+                </p>
+              </div>
+
+              <Image
+                src="/icons/export-w.svg"
+                alt="FAQ Icon"
+                width={16}
+                height={16}
+                className="h-4"
+              />
+            </div>
+          </div>
         </div>
       </Container>
     </div>
