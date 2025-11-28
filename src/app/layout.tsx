@@ -29,7 +29,11 @@ const ibmPlexSansThaiLooped = localFont({
   variable: "--font-ibm-plex-sans-thai-looped",
 });
 
+// TODO: Replace with your actual production domain
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://conforall.com/";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "เส้นทางสู่ประชามติ รัฐธรรมนูญใหม่ ต้องการคุณ",
   description:
     "ร่วมเป็นส่วนหนึ่งในการประชามติรัฐธรรมนูญใหม่ ค้นหาจุดรณรงค์ สมัครเป็นจุดรณรงค์ และติดตามข้อมูลข่าวสารล่าสุด",
@@ -43,7 +47,7 @@ export const metadata: Metadata = {
     siteName: "Referendum",
     images: [
       {
-        url: "/images/banner-logo.svg",
+        url: "/images/og-image.png",
         width: 1200,
         height: 630,
         alt: "เส้นทางสู่ประชามติ รัฐธรรมนูญใหม่",
@@ -55,7 +59,7 @@ export const metadata: Metadata = {
     title: "เส้นทางสู่ประชามติ รัฐธรรมนูญใหม่ ต้องการคุณ",
     description:
       "ร่วมเป็นส่วนหนึ่งในการประชามติรัฐธรรมนูญใหม่ ค้นหาจุดรณรงค์ สมัครเป็นจุดรณรงค์ และติดตามข้อมูลข่าวสารล่าสุด",
-    images: ["/images/banner-logo.svg"],
+    images: ["/images/og-image.png"],
   },
 };
 
