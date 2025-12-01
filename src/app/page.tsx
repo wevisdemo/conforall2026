@@ -14,19 +14,20 @@ import path from "path";
 
 // Define your schema based on your Google Sheets columns
 const schema = Object({
-  category: Column("Category", asString()),
-  question: Column("Question", asString()),
-  answer: Column("Answer", asString()),
+  category: Column("Category", asString().optional()),
+  question: Column("Question", asString().optional()),
+  answer: Column("Answer", asString().optional()),
 });
 
 const schemaMap = Object({
   name: Column("ชื่อ - นามสกุล", asString().optional()),
-  tel: Column("เบอร์โทรศัพท์", asString()),
+  tel: Column("เบอร์โทรศัพท์", asString().optional()),
   detail: Column("รายละเอียดติดต่อ", asString().optional()),
   name_location: Column("จุดรณรงค์", asString().optional()),
   map_url: Column("ตำแหน่งจากแผนที่ (Google Maps)", asString().optional()),
   map_detail: Column("อธิบายการเดินทางคร่าวๆ", asString().optional()),
   date: Column("วัน-เวลา ที่เปิด", asString().optional()),
+  published: Column("published", asString().optional()),
 });
 
 // Extract lat/lng from Google Maps URL (supports multiple formats)
@@ -195,7 +196,7 @@ async function getData(): Promise<FaqItem[]> {
 async function getDataMap(): Promise<MapItem[]> {
   const dataMap = await Spreadsheet(
     "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
-  ).get("volunteers-mock", schemaMap);
+  ).get("volunteers", schemaMap);
   return dataMap;
 }
 
@@ -207,8 +208,17 @@ export default async function Home() {
     loadECTGeoJson(),
   ]);
 
+  // Filter only published items
+  const publishedMapItems = dataMap.filter(
+    (item) => item.published === "Published"
+  );
+
   // Process map items with province info and name_id
-  const mapWithProvince = processMapItems(dataMap, provincesData, ectData);
+  const mapWithProvince = processMapItems(
+    publishedMapItems,
+    provincesData,
+    ectData
+  );
 
   return <HomePage faq={data} map={mapWithProvince} />;
 }

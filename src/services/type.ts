@@ -39,19 +39,20 @@ export interface Post {
 }
 
 export interface FaqItem {
-  category: string;
-  question: string;
-  answer: string;
+  category?: string;
+  question?: string;
+  answer?: string;
 }
 
 export interface MapItem {
   name?: string;
-  tel: string;
+  tel?: string;
   detail?: string;
   name_location?: string;
   map_url?: string;
   map_detail?: string;
   date?: string;
+  published?: string;
 }
 
 export interface ProvinceInfo {
