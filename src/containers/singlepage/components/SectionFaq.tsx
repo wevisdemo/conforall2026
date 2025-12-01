@@ -3,7 +3,7 @@
 import Container from "@/src/components/Container";
 import Image from "next/image";
 import { FaqItem } from "@/src/services/type";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 interface SectionFaqProps {
   faq: FaqItem[];
@@ -11,9 +11,32 @@ interface SectionFaqProps {
 
 const SectionFaq = ({ faq }: SectionFaqProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // Extract unique categories from FAQ data
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set<string>();
+    faq.forEach((item) => {
+      if (item.category) {
+        uniqueCategories.add(item.category);
+      }
+    });
+    return Array.from(uniqueCategories);
+  }, [faq]);
+
+  // Filter FAQ items by selected category
+  const filteredFaq = useMemo(() => {
+    if (!selectedCategory) return faq;
+    return faq.filter((item) => item.category === selectedCategory);
+  }, [faq, selectedCategory]);
 
   const toggleFaq = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  const handleCategoryClick = (category: string | null) => {
+    setSelectedCategory(category);
+    setExpandedIndex(null); // Reset expanded state when changing category
   };
 
   return (
@@ -33,8 +56,38 @@ const SectionFaq = ({ faq }: SectionFaqProps) => {
             </p>
           </div>
 
+          {/* Category Filter Pills */}
+          <div className="w-full">
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide flex-wrap justify-center items-center">
+              {/* "All" button */}
+              <button
+                onClick={() => handleCategoryClick(null)}
+                className={`shrink-0 py-1.5 px2.5 rounded-full border-2 border-green-1 typo-body-03-semibold transition-all duration-200 ${
+                  selectedCategory === null
+                    ? "bg-green-1 text-white"
+                    : " text-neutral hover:bg-green-1/10"
+                }`}
+              >
+                ทั้งหมด
+              </button>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className={`shrink-0 py-1.5 px-2.5 rounded-full border-2 border-green-1 typo-body-03-semibold transition-all duration-200 ${
+                    selectedCategory === category
+                      ? "bg-green-1 text-white"
+                      : " text-neutral hover:bg-green-1/10"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="w-full max-w-3xl flex flex-col">
-            {faq.map((item, index) => (
+            {filteredFaq.map((item, index) => (
               <div
                 key={index}
                 className="flex flex-col border-b border-green-1"

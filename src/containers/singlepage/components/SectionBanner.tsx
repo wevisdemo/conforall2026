@@ -1,5 +1,6 @@
 import Container from "@/src/components/Container";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -24,6 +25,14 @@ const SectionBanner = () => {
   return (
     <div className="bg-green-1">
       <Container className="md:min-h-screen min-h-fit flex justify-center md:max-w-[1000px]!">
+        <div className="absolute top-4 right-4">
+          <Link
+            href="/"
+            className="typo-body-02-semibold text-base-100! underline"
+          >
+            รู้จักเรา
+          </Link>
+        </div>
         <div className="md:flex items-center gap-10 md:py-0 py-10">
           <Image
             src="/images/banner-logo.svg"
