@@ -23,15 +23,30 @@ const SectionDreamCon = () => {
           />
           <p className="typo-body-03-normal text-neutral text-center">
             <span className="typo-body-03-semibold text-neutral text-center">
-              Dream Constitution
+              Dream
+              <br />
+              Constitution
             </span>
-            โครงการรวบรวมความคิดเห็นของคนไทยเพื่อเป็นศูนย์รวมไอเดียในการร่างรัฐธรรมนูญฉบับประชาชนเพราะรัฐธรรมนูญอาจฟังไกลตัวในบางครั้ง
+            โครงการรวบรวมความคิดเห็นของคนไทยเพื่อเป็นศูนย์รวมไอเดียในการร่างรัฐธร
+            <br />
+            รมนูญฉบับประชาชน
+            <br />
+            เพราะรัฐธรรมนูญอาจฟังไกลตัวในบางครั้ง
+            <br />
             เราจึงอยากชวนทุกคนนำความคิดฝันที่หลากหลายมาวางไว้ให้กลายเป็นเรื่องราวเดียว
-            แล้วส่งต่อให้ผู้มีหน้าที่ในการร่างรัฐธรรมนูญใหม่นำไปประกอบขึ้นเป็นร่างของประชาชนอย่างแท้จริง
+            <br />
+            แล้วส่งต่อให้ผู้มีหน้าที่ในการร่างรัฐธรรมนูญใหม่นำไปประกอบขึ้นเป็นร่างของประชาชนอย่างแ
+            <br />
+            ท้จริง
           </p>
-          <div className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all w-full cursor-pointer">
+          <div
+            className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all w-full cursor-pointer"
+            onClick={() =>
+              window.open("https://dreamcon.wevis.info/", "_blank")
+            }
+          >
             <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
-              <p className="typo-body-03-semibold  text-base-100">
+              <p className="typo-body-03-semibold  text-neutral">
                 ร่วมส่งเสียงเลย!
               </p>
               <Image

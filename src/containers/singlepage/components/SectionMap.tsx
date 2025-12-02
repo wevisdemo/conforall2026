@@ -22,7 +22,7 @@ const SectionMap = ({ map }: SectionMapProps) => {
             <p className="typo-heading-mobile-03 text-neutral">
               ค้นหาจุดรณรงค์
             </p>
-            <p className="typo-body-03-normal text-neutral">
+            <p className="typo-body-03-normal text-neutral text-center">
               เพื่อรับแผ่นพับและร่วมกิจกรรมต่างๆ xxxxxxxxxxxxxxxxxxxxxxx
             </p>
             <div className="flex flex-col gap-2.5 items-center justify-center">
@@ -54,7 +54,9 @@ const SectionMap = ({ map }: SectionMapProps) => {
                   สมัครเป็นจุดรณรงค์
                 </p>
                 <p className="typo-body-02-normal text-base-100">
-                  เพื่อเป็นศูนย์กลางกระจายแคมเปญประจำเขตเลือกตั้งของคุณ
+                  เพื่อเป็นศูนย์กลางกระจายแคมเปญปร
+                  <br className="md:hidden" />
+                  ะจำเขตเลือกตั้งของคุณ
                 </p>
               </div>
 

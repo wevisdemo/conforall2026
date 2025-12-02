@@ -29,7 +29,7 @@ const SectionDetail = () => {
           </div>
           <div className="w-full flex flex-col gap-5 justify-center items-center">
             <Divider label="คำถามข้อที่ 1" />
-            <p className="typo-heading-mobile-01 text-neutral">
+            <p className="typo-heading-mobile-01 text-neutral text-center">
               “Lorem ipsum dolor sit amet consectetur. Ut sapien tempus sem
               ipsum. Vitae dignissim nec et quis eget.”
             </p>
@@ -45,7 +45,7 @@ const SectionDetail = () => {
           </div>
           <div className="w-full flex flex-col gap-5 justify-center items-center">
             <Divider label="คำถามข้อที่ 2" />
-            <p className="typo-heading-mobile-01 text-neutral">
+            <p className="typo-heading-mobile-01 text-neutral text-center">
               “Lorem ipsum dolor sit amet consectetur. Ut sapien tempus sem
               ipsum. Vitae dignissim nec et quis eget.”
             </p>

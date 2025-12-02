@@ -18,7 +18,7 @@ interface HomePageProps {
 
 export default function HomePage({ faq, map }: HomePageProps) {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-  console.log(map);
+  // console.log(map);
   return (
     <div>
       {/* Chatbot Toggle Button - hidden on mobile when chatbot is open */}

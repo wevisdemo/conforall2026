@@ -39,7 +39,7 @@ const SectionNew = () => {
     <div className="bg-green-1 py-20">
       <Container className="">
         <div className="flex flex-col gap-10 items-center justify-center">
-          <p className="typo-heading-mobile-03 text-neutral">
+          <p className="typo-heading-mobile-03 text-neutral text-center">
             ข้อเสนอรัฐธรรมนูญใหม่
           </p>
           <p className="typo-body-03-semibold text-base-100">จาก xx องค์กร</p>
