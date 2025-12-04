@@ -26,12 +26,12 @@ const SectionBanner = () => {
     <div className="bg-green-1">
       <Container className="md:min-h-screen min-h-fit flex justify-center md:max-w-[1000px]!">
         <div className="absolute top-4 right-4">
-          <Link
-            href="/"
-            className="typo-body-02-semibold text-base-100! underline"
+          <p
+            onClick={() => router.push("#footer")}
+            className="typo-body-02-semibold text-base-100! underline cursor-pointer"
           >
             รู้จักเรา
-          </Link>
+          </p>
         </div>
         <div className="md:flex items-center gap-10 md:py-0 py-10">
           <Image
