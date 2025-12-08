@@ -45,7 +45,7 @@ const SectionDreamCon = () => {
                 ร่วมส่งเสียงเลย!
               </p>
               <Image
-                src="/icons/export-w.svg"
+                src="/icons/export.svg"
                 alt="FAQ Icon"
                 width={16}
                 height={16}
