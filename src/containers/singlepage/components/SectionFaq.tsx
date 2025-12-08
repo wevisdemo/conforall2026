@@ -4,9 +4,13 @@ import Container from "@/src/components/Container";
 import Image from "next/image";
 import { FaqItem } from "@/src/services/type";
 import { useState, useMemo, useEffect } from "react";
+import { Spreadsheet, Column, Object, asString } from "sheethuahua";
 
-const SPREADSHEET_ID = "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g";
-const SHEET_NAME = "faq";
+const schema = Object({
+  category: Column("Category", asString().optional()),
+  question: Column("Question", asString().optional()),
+  answer: Column("Answer", asString().optional()),
+});
 
 const SectionFaq = () => {
   const [faq, setFaq] = useState<FaqItem[]>([]);
@@ -16,44 +20,14 @@ const SectionFaq = () => {
 
   const OTHER_CATEGORY = "อื่น ๆ";
 
-  // Fetch FAQ data client-side
+  // Fetch FAQ data client-side using sheethuahua
   useEffect(() => {
     const fetchFaq = async () => {
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-        const response = await fetch(url);
-        const text = await response.text();
-
-        // Google returns JSONP, extract the JSON part
-        const jsonMatch = text.match(
-          /google\.visualization\.Query\.setResponse\(([\s\S]*)\);?$/
-        );
-        if (!jsonMatch) throw new Error("Failed to parse response");
-
-        const json = JSON.parse(jsonMatch[1]);
-        const rows = json.table.rows;
-        const cols = json.table.cols;
-
-        // Find column indices
-        const categoryIdx = cols.findIndex(
-          (c: { label: string }) => c.label === "Category"
-        );
-        const questionIdx = cols.findIndex(
-          (c: { label: string }) => c.label === "Question"
-        );
-        const answerIdx = cols.findIndex(
-          (c: { label: string }) => c.label === "Answer"
-        );
-
-        const faqData: FaqItem[] = rows
-          .map((row: { c: Array<{ v: string } | null> }) => ({
-            category: row.c[categoryIdx]?.v || undefined,
-            question: row.c[questionIdx]?.v || undefined,
-            answer: row.c[answerIdx]?.v || undefined,
-          }))
-          .filter((item: FaqItem) => item.question); // Filter out empty rows
-
-        setFaq(faqData);
+        const data = await Spreadsheet(
+          "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
+        ).get("faq", schema);
+        setFaq(data.filter((item) => item.question)); // Filter out empty rows
       } catch (error) {
         console.error("Failed to fetch FAQ:", error);
       } finally {
