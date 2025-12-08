@@ -3,17 +3,40 @@
 import Container from "@/src/components/Container";
 import Image from "next/image";
 import { FaqItem } from "@/src/services/type";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { Column, Spreadsheet, asString } from "sheethuahua";
 
 interface SectionFaqProps {
   faq: FaqItem[];
 }
+
+const schema = Object({
+  category: Column("Category", asString().optional()),
+  question: Column("Question", asString().optional()),
+  answer: Column("Answer", asString().optional()),
+});
 
 const SectionFaq = ({ faq }: SectionFaqProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     "ทั่วไป"
   );
+
+  async function getData(): Promise<FaqItem[]> {
+    const data = await Spreadsheet(
+      "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
+    ).get("faq", schema);
+    console.log(data);
+    return data as FaqItem[];
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getData();
+      console.log(data);
+    };
+    fetchData();
+  }, []);
 
   const OTHER_CATEGORY = "อื่น ๆ";
 
