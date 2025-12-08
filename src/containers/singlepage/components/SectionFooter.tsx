@@ -20,10 +20,26 @@ const SectionFooter = () => {
             className="mx-auto"
           />
           <p className="typo-body-03-normal text-neutral text-center">
-            Lorem ipsum dolor sit amet consectetur. Viverra condimentum vel
-            massa neque quam a et. Mauris magna volutpat mattis dignissim dolor
-            aliquet diam morbi velit. Phasellus arcu pharetra nulla amet. Lacus
-            iaculis consequat senectus in.
+            <span className="typo-body-03-semibold text-neutral">
+              Conforall
+            </span>{" "}
+            ชื่อภาษาไทยว่า{" "}
+            <span className="typo-body-03-semibold text-neutral">
+              กลุ่มประชาชนร่างรัฐธรรมนูญ
+            </span>{" "}
+            เกิดจากการรวมตัวของกลุ่มนักกิจกรรมและเอ็นจีโอหลายแห่งที่ต้องการเห็นประเทศไทยเป็นประชาธิปไตย
+            เมื่อปี 2566 เป็นเจ้าภาพรวบรวมรายชื่อประชาชนกว่า 211,904
+            รายชื่อเสนอต่อรัฐบาลเศรษฐา
+            ทวีสินให้ทำประชามติเพื่อถามประชาชนว่าเห็นชอบหรือไม่ให้มีการจัดทำรัฐธรรมนูญฉบับใหม่
+            และตอนนี้ Conforall กำลังทำแคมเปญ #พร้อมเปลี่ยนเขียนรัฐธรรมนูญใหม่
+            ชวนคนไทยไปลงประชามติรัฐธรรมนูญ <br />
+            <br />
+            Conforall ชื่อนี้มีความหมาย
+            เพราะเราต้องการเห็นกระบวนการจัดทำรัฐธรรมนูญฉบับใหม่ที่รวมทุกคน
+            ทุกเสียง เพื่อให้ได้กติกาของประเทศเพื่อทุกคนที่มีความต้องการหลากหลาย
+            มีความเชื่อหลากหลาย เรารู้ว่า
+            มีคนหลายกลุ่มอาจไม่ได้คิดเห็นเหมือนพวกเรา
+            ซึ่งเราก็อยากให้รัฐธรรมนูญใหม่เป็นไปเพื่อคนกลุ่มนั้นด้วย
           </p>
           <div className="flex flex-col gap-2.5 ">
             <p className="typo-body-03-semibold text-neutral text-center">
