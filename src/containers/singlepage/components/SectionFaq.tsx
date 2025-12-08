@@ -11,22 +11,42 @@ interface SectionFaqProps {
 
 const SectionFaq = ({ faq }: SectionFaqProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    "ทั่วไป"
+  );
+
+  const OTHER_CATEGORY = "อื่น ๆ";
 
   // Extract unique categories from FAQ data
   const categories = useMemo(() => {
     const uniqueCategories = new Set<string>();
+    let hasOtherItems = false;
+
     faq.forEach((item) => {
-      if (item.category) {
+      if (!item.category || item.category === OTHER_CATEGORY) {
+        hasOtherItems = true;
+      } else {
         uniqueCategories.add(item.category);
       }
     });
-    return Array.from(uniqueCategories);
+
+    const result = Array.from(uniqueCategories);
+    // Add "อื่น ๆ" at the end if there are items without category or with "อื่น ๆ"
+    if (hasOtherItems) {
+      result.push(OTHER_CATEGORY);
+    }
+    return result;
   }, [faq]);
 
   // Filter FAQ items by selected category
   const filteredFaq = useMemo(() => {
     if (!selectedCategory) return faq;
+    // When "อื่น ๆ" is selected, show items without category or with "อื่น ๆ" category
+    if (selectedCategory === OTHER_CATEGORY) {
+      return faq.filter(
+        (item) => !item.category || item.category === OTHER_CATEGORY
+      );
+    }
     return faq.filter((item) => item.category === selectedCategory);
   }, [faq, selectedCategory]);
 
@@ -60,7 +80,7 @@ const SectionFaq = ({ faq }: SectionFaqProps) => {
           <div className="w-full">
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide flex-wrap justify-center items-center">
               {/* "All" button */}
-              <button
+              {/* <button
                 onClick={() => handleCategoryClick(null)}
                 className={`shrink-0 py-1.5 px2.5 rounded-full border-2 border-green-1 typo-body-03-semibold transition-all duration-200 ${
                   selectedCategory === null
@@ -69,7 +89,7 @@ const SectionFaq = ({ faq }: SectionFaqProps) => {
                 }`}
               >
                 ทั้งหมด
-              </button>
+              </button> */}
               {categories.map((category) => (
                 <button
                   key={category}

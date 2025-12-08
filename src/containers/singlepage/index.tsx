@@ -39,9 +39,9 @@ export default function HomePage({ faq, map }: HomePageProps) {
         <SectionBanner />
       </section>
 
-      <section id="detail">
+      {/* <section id="detail">
         <SectionDetail />
-      </section>
+      </section> */}
 
       <section id="map">
         <SectionMap map={map} />

@@ -23,11 +23,11 @@ const SectionMap = ({ map }: SectionMapProps) => {
               ค้นหาจุดรณรงค์
             </p>
             <p className="typo-body-03-normal text-neutral text-center">
-              เพื่อรับแผ่นพับและร่วมกิจกรรมต่างๆ xxxxxxxxxxxxxxxxxxxxxxx
+              เพื่อรับแผ่นพับและร่วมกิจกรรมต่างๆ
             </p>
             <div className="flex flex-col gap-2.5 items-center justify-center">
               <p className="typo-heading-mobile-01 text-neutral">
-                มีจุดรณรงค์แล้วใน xxx เขต
+                มีจุดรณรงค์แล้วใน {map.length} เขต
               </p>
               <p className="typo-body-03-semibold text-neutral">
                 จาก 400 เขตเลือกตั้งทั่วประเทศ
@@ -47,7 +47,12 @@ const SectionMap = ({ map }: SectionMapProps) => {
 
           <MapComponent mapPoints={map} />
 
-          <div className="bg-neutral border-2 border-neutral w-full rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer ">
+          <div
+            className="bg-neutral border-2 border-neutral w-full rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer "
+            onClick={() =>
+              window.open("https://volunteers.conforall.com/", "_blank")
+            }
+          >
             <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
               <div>
                 <p className="typo-body-03-semibold  text-base-100">
