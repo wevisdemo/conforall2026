@@ -41,7 +41,7 @@ const SectionFooter = () => {
             มีคนหลายกลุ่มอาจไม่ได้คิดเห็นเหมือนพวกเรา
             ซึ่งเราก็อยากให้รัฐธรรมนูญใหม่เป็นไปเพื่อคนกลุ่มนั้นด้วย
           </p>
-          <div className="flex flex-col gap-2.5 ">
+          {/* <div className="flex flex-col gap-2.5 ">
             <p className="typo-body-03-semibold text-neutral text-center">
               Partners
             </p>
@@ -77,7 +77,7 @@ const SectionFooter = () => {
                 <p className="typo-body-02-normal text-base-300">logo</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>
