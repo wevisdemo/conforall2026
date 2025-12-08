@@ -10,7 +10,7 @@ const SectionNew = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          "https://www.ilaw.or.th/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title,link,date,_links.wp:featuredmedia,_embedded.wp:featuredmedia&per_page=10&tags=4519"
+          "https://www.ilaw.or.th/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title,link,date,_links.wp:featuredmedia,_embedded.wp:featuredmedia&per_page=10&tags=11029"
         );
 
         if (!response.ok) {
@@ -50,7 +50,8 @@ const SectionNew = () => {
           {posts.map((post) => (
             <div
               key={post.id}
-              className="bg-base-100 p-2.5 rounded-[10px] flex flex-col gap-2.5 w-[320px] border-2 border-base-100 hover:border-neutral transition-all"
+              className="bg-base-100 p-2.5 rounded-[10px] flex flex-col gap-2.5 w-[320px] border-2 border-base-100 hover:border-neutral transition-all cursor-pointer"
+              onClick={() => window.open(post.link, "_blank")}
             >
               <Image
                 src={getImageUrl(post)}
