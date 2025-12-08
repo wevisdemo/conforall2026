@@ -1,7 +1,6 @@
 import { Spreadsheet, Column, Object, asString } from "sheethuahua";
 import HomePage from "../containers/singlepage";
 import {
-  FaqItem,
   MapItem,
   MapItemWithProvince,
   ProvinceInfo,
@@ -11,13 +10,6 @@ import { booleanPointInPolygon, point } from "@turf/turf";
 import type { FeatureCollection, MultiPolygon, Polygon } from "geojson";
 import { promises as fs } from "fs";
 import path from "path";
-
-// Define your schema based on your Google Sheets columns
-const schema = Object({
-  category: Column("Category", asString().optional()),
-  question: Column("Question", asString().optional()),
-  answer: Column("Answer", asString().optional()),
-});
 
 const schemaMap = Object({
   name: Column("ชื่อ - นามสกุล", asString().optional()),
@@ -186,13 +178,6 @@ function processMapItems(
   });
 }
 
-async function getData(): Promise<FaqItem[]> {
-  const data = await Spreadsheet(
-    "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
-  ).get("faq", schema);
-  return data;
-}
-
 async function getDataMap(): Promise<MapItem[]> {
   const dataMap = await Spreadsheet(
     "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
@@ -201,8 +186,7 @@ async function getDataMap(): Promise<MapItem[]> {
 }
 
 export default async function Home() {
-  const [data, dataMap, provincesData, ectData] = await Promise.all([
-    getData(),
+  const [dataMap, provincesData, ectData] = await Promise.all([
     getDataMap(),
     loadProvincesGeoJson(),
     loadECTGeoJson(),
@@ -220,5 +204,5 @@ export default async function Home() {
     ectData
   );
 
-  return <HomePage faq={data} map={mapWithProvince} />;
+  return <HomePage map={mapWithProvince} />;
 }
