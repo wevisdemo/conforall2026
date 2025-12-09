@@ -4,6 +4,9 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  schedule:
+    # Run every day at 5 PM Thailand time (UTC+7) = 10:00 UTC
+    - cron: "0 10 * * *"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
