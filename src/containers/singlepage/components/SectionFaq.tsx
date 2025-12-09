@@ -3,7 +3,7 @@
 import Container from "@/src/components/Container";
 import Image from "next/image";
 import { FaqItem } from "@/src/services/type";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 interface SectionFaqProps {
   faq: FaqItem[];
@@ -36,11 +36,16 @@ const SectionFaq = ({ faq }: SectionFaqProps) => {
     return result;
   }, [faq]);
 
-  // Note: selectedCategory starts as null to show all FAQs by default
+  // Auto-select first category when categories are loaded
+  useEffect(() => {
+    if (categories.length > 0 && selectedCategory === null) {
+      setSelectedCategory(categories[0]);
+    }
+  }, [categories, selectedCategory]);
 
   // Filter FAQ items by selected category
   const filteredFaq = useMemo(() => {
-    if (!selectedCategory) return faq;
+    if (!selectedCategory) return [];
     // When "อื่น ๆ" is selected, show items without category or with "อื่น ๆ" category
     if (selectedCategory === OTHER_CATEGORY) {
       return faq.filter(
@@ -79,17 +84,6 @@ const SectionFaq = ({ faq }: SectionFaqProps) => {
           {/* Category Filter Pills */}
           <div className="w-full">
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide flex-wrap justify-center items-center">
-              {/* "All" button */}
-              <button
-                onClick={() => handleCategoryClick(null)}
-                className={`shrink-0 py-1.5 px-2.5 rounded-full border-2 border-green-1 typo-body-03-semibold transition-all duration-200 ${
-                  selectedCategory === null
-                    ? "bg-green-1 text-white"
-                    : " text-neutral hover:bg-green-1/10"
-                }`}
-              >
-                ทั้งหมด
-              </button>
               {categories.map((category) => (
                 <button
                   key={category}
