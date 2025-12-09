@@ -1,6 +1,7 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   id: number;
@@ -13,22 +14,29 @@ interface ChatbotProps {
   onClose: () => void;
 }
 
+const CHATBOT_API_URL =
+  "https://boonmeelab.app.n8n.cloud/webhook/41baf3d8-9bf4-401b-b4f9-a2e4735406aa";
+
 export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
+    // {
+    //   id: 1,
+    //   text: "สวัสดี เราคือ XXXXXXXXXXXX",
+    //   isBot: true,
+    // },
     {
       id: 1,
-      text: "สวัสดี เราคือ XXXXXXXXXXXX",
-      isBot: true,
-    },
-    {
-      id: 2,
       text: "มีอะไรสงสัย ถามเราได้เลย",
       isBot: true,
     },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Generate a stable userId per session
+  const userId = useMemo(() => crypto.randomUUID(), []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,25 +46,62 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
+  const handleSendMessage = async () => {
+    if (inputValue.trim() && !isLoading) {
+      const userText = inputValue;
       const newMessage: Message = {
         id: messages.length + 1,
-        text: inputValue,
+        text: userText,
         isBot: false,
       };
-      setMessages([...messages, newMessage]);
+      setMessages((prev) => [...prev, newMessage]);
       setInputValue("");
+      setIsLoading(true);
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponse: Message = {
-          id: messages.length + 2,
-          text: "ขอบคุณสำหรับคำถาม เราจะติดต่อกลับโดยเร็วที่สุด",
+      try {
+        const response = await fetch(CHATBOT_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userid: userId,
+            text: userText,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("API request failed");
+        }
+
+        const data = await response.json();
+
+        // Parse the response and add bot messages
+        if (data.messagesPayload && Array.isArray(data.messagesPayload)) {
+          data.messagesPayload.forEach(
+            (payload: { type: string; text: string }, index: number) => {
+              if (payload.type === "text" && payload.text) {
+                const botResponse: Message = {
+                  id: Date.now() + index,
+                  text: payload.text,
+                  isBot: true,
+                };
+                setMessages((prev) => [...prev, botResponse]);
+              }
+            }
+          );
+        }
+      } catch (error) {
+        console.error("Chatbot API error:", error);
+        const errorMessage: Message = {
+          id: Date.now(),
+          text: "ขออภัย เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
           isBot: true,
         };
-        setMessages((prev) => [...prev, botResponse]);
-      }, 1000);
+        setMessages((prev) => [...prev, errorMessage]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -126,9 +171,9 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
                       />
                     </div>
                     <div className="bg-[#FFF9DB] rounded-2xl px-4 py-3 max-w-[220px]">
-                      <p className="typo-body-02-normal text-neutral">
-                        {message.text}
-                      </p>
+                      <div className="typo-body-02-normal text-neutral prose prose-sm prose-neutral max-w-none [&_p]:m-0 [&_ul]:m-0 [&_ol]:m-0 [&_li]:m-0">
+                        <ReactMarkdown>{message.text}</ReactMarkdown>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -141,6 +186,28 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
                 )}
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="flex items-start gap-2">
+                  <div className="w-10 h-10 rounded-full bg-green-1 flex items-center justify-center shrink-0 overflow-hidden">
+                    <Image
+                      src="/images/profile.svg"
+                      alt="bot"
+                      width={32}
+                      height={32}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="bg-[#FFF9DB] rounded-2xl px-4 py-3">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-neutral rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                      <span className="w-2 h-2 bg-neutral rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                      <span className="w-2 h-2 bg-neutral rounded-full animate-bounce"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -153,11 +220,13 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="พิมพ์คำถาม"
-                className="flex-1 bg-base-200 rounded-full px-4 py-3 typo-body-02-normal text-neutral placeholder:text-base-300 outline-none focus:ring-2 focus:ring-green-1 transition-all"
+                disabled={isLoading}
+                className="flex-1 bg-base-200 rounded-full px-4 py-3 typo-body-02-normal text-neutral placeholder:text-base-300 outline-none focus:ring-2 focus:ring-green-1 transition-all disabled:opacity-50"
               />
               <button
                 onClick={handleSendMessage}
-                className="w-12 h-12 bg-neutral rounded-full flex items-center justify-center hover:opacity-80 transition-opacity shrink-0"
+                disabled={isLoading}
+                className="w-12 h-12 bg-neutral rounded-full flex items-center justify-center hover:opacity-80 transition-opacity shrink-0 disabled:opacity-50"
               >
                 <svg
                   width="24"

@@ -8,7 +8,7 @@ const SectionBanner = () => {
   const router = useRouter();
 
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-  const shareText = "เส้นทางสู่ประชามติ รัฐธรรมนูญใหม่ ต้องการคุณ";
+  const shareText = "เส้นทางสู่ประชามติรัฐธรรมนูญใหม่ ต้องการคุณ";
 
   const handleShare = (platform: "facebook" | "x" | "line") => {
     const encodedUrl = encodeURIComponent(shareUrl);

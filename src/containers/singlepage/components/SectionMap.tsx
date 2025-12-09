@@ -14,7 +14,7 @@ interface SectionMapProps {
 
 const SectionMap = ({ map, ectCount }: SectionMapProps) => {
   // Data now comes with lat, lng, and province already processed
-  console.log(map);
+  // console.log(map);
 
   return (
     <div className="bg-base-100">
