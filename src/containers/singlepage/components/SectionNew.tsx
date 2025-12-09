@@ -42,7 +42,9 @@ const SectionNew = () => {
           <p className="typo-heading-mobile-03 text-neutral text-center">
             ข้อเสนอรัฐธรรมนูญใหม่
           </p>
-          <p className="typo-body-03-semibold text-base-100">จาก xx องค์กร</p>
+          <p className="typo-body-03-semibold text-base-100">
+            จาก {posts.length} องค์กร
+          </p>
         </div>
       </Container>
       <div className="mt-10 md:w-[90vw] w-[90vw] overflow-x-scroll mx-auto">
