@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { GeoJsonObject, Feature } from "geojson";
-import { MapItemWithProvince } from "@/src/services/type";
+import { MapItemWithProvince, ECTCountByProvince } from "@/src/services/type";
 
 // Dynamically import react-leaflet components with SSR disabled
 const MapContainer = dynamic(
@@ -164,8 +164,10 @@ function ZoomToSelection({
 
 export default function GeoJSONMap({
   mapPoints,
+  ectCount,
 }: {
   mapPoints: MapItemWithProvince[];
+  ectCount: ECTCountByProvince;
 }) {
   const [geoData, setGeoData] = useState<GeoJsonObject | null>(null);
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
@@ -254,15 +256,30 @@ export default function GeoJSONMap({
       )
     : [];
 
+  // Determine fill color based on ECT coverage
+  const getFillColor = (provinceName: string | undefined): string => {
+    if (!provinceName) return "#fff";
+
+    const provinceECT = ectCount[provinceName];
+    if (!provinceECT || provinceECT.coveredECT === 0) {
+      return "#fff"; // White - no coverage
+    }
+
+    if (provinceECT.coveredECT >= provinceECT.totalECT) {
+      return "#2AB15B"; // Green - full coverage (all ECT districts covered)
+    }
+
+    return "#F6E954"; // Yellow - partial coverage
+  };
+
   // Style function for GeoJSON features
   const geoJSONStyle = (feature?: Feature) => {
     const isSelected =
       selectedFeature?.properties?.pro_code === feature?.properties?.pro_code;
-    const mapMarker = mapPoints.find(
-      (point) => point.province?.pro_code === feature?.properties?.pro_code
-    );
+    const provinceName = feature?.properties?.pro_th as string | undefined;
+
     return {
-      fillColor: mapMarker ? "#F6E954" : "#fff",
+      fillColor: getFillColor(provinceName),
       fillOpacity: isSelected ? 0.8 : 0.5,
       color: isSelected ? "#000" : "#000",
       weight: isSelected ? 3 : 2,

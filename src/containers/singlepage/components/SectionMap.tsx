@@ -1,5 +1,5 @@
 import Container from "@/src/components/Container";
-import { MapItemWithProvince } from "@/src/services/type";
+import { MapItemWithProvince, ECTCountByProvince } from "@/src/services/type";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
@@ -9,10 +9,12 @@ const MapComponent = dynamic(() => import("./SectiontestMap"), {
 
 interface SectionMapProps {
   map: MapItemWithProvince[];
+  ectCount: ECTCountByProvince;
 }
 
-const SectionMap = ({ map }: SectionMapProps) => {
+const SectionMap = ({ map, ectCount }: SectionMapProps) => {
   // Data now comes with lat, lng, and province already processed
+  console.log(map);
 
   return (
     <div className="bg-base-100">
@@ -45,7 +47,7 @@ const SectionMap = ({ map }: SectionMapProps) => {
             </div>
           </div>
 
-          <MapComponent mapPoints={map} />
+          <MapComponent mapPoints={map} ectCount={ectCount} />
 
           <div
             className="bg-neutral border-2 border-neutral w-full rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer "

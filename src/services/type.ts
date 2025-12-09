@@ -75,3 +75,12 @@ export interface MapItemWithProvince extends MapItem {
   province?: ProvinceInfo | null;
   name_id?: string | null;
 }
+
+// ECT count by province - key is province name (P_name)
+export interface ECTCountByProvince {
+  [provinceName: string]: {
+    totalECT: number; // Total ECT districts in province
+    coveredECT: number; // Number of ECT districts with map markers
+    ectIds: string[]; // All ECT IDs (ID_name) in province
+  };
+}
