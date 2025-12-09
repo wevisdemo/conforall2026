@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 
 const fcMinimal = localFont({
@@ -74,6 +75,12 @@ export default function RootLayout({
         className={`${fcMinimal.variable} ${ibmPlexSansThaiLooped.variable} antialiased`}
       >
         {children}
+        <Script
+          defer
+          data-domain="conforall.com"
+          src="https://analytics.punchup.world/js/script.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
