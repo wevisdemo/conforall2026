@@ -1,6 +1,7 @@
 import { Spreadsheet, Column, Object, asString } from "sheethuahua";
 import HomePage from "../containers/singlepage";
 import {
+  FaqItem,
   MapItem,
   MapItemWithProvince,
   ProvinceInfo,
@@ -10,6 +11,12 @@ import { booleanPointInPolygon, point } from "@turf/turf";
 import type { FeatureCollection, MultiPolygon, Polygon } from "geojson";
 import { promises as fs } from "fs";
 import path from "path";
+
+const schemaFaq = Object({
+  category: Column("Category", asString().optional()),
+  question: Column("Question", asString().optional()),
+  answer: Column("Answer", asString().optional()),
+});
 
 const schemaMap = Object({
   name: Column("ชื่อ - นามสกุล", asString().optional()),
@@ -178,6 +185,13 @@ function processMapItems(
   });
 }
 
+async function getFaqData(): Promise<FaqItem[]> {
+  const data = await Spreadsheet(
+    "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
+  ).get("faq", schemaFaq);
+  return data;
+}
+
 async function getDataMap(): Promise<MapItem[]> {
   const dataMap = await Spreadsheet(
     "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
@@ -186,7 +200,8 @@ async function getDataMap(): Promise<MapItem[]> {
 }
 
 export default async function Home() {
-  const [dataMap, provincesData, ectData] = await Promise.all([
+  const [faqData, dataMap, provincesData, ectData] = await Promise.all([
+    getFaqData(),
     getDataMap(),
     loadProvincesGeoJson(),
     loadECTGeoJson(),
@@ -204,5 +219,5 @@ export default async function Home() {
     ectData
   );
 
-  return <HomePage map={mapWithProvince} />;
+  return <HomePage faq={faqData} map={mapWithProvince} />;
 }

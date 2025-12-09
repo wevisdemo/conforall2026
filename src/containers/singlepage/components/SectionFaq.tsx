@@ -4,39 +4,16 @@ import Container from "@/src/components/Container";
 import Image from "next/image";
 import { FaqItem } from "@/src/services/type";
 import { useState, useMemo, useEffect } from "react";
-import { Spreadsheet, Column, Object, asString } from "sheethuahua";
 
-const schema = Object({
-  category: Column("Category", asString().optional()),
-  question: Column("Question", asString().optional()),
-  answer: Column("Answer", asString().optional()),
-});
+interface SectionFaqProps {
+  faq: FaqItem[];
+}
 
-const SectionFaq = () => {
-  const [faq, setFaq] = useState<FaqItem[]>([]);
-  const [loading, setLoading] = useState(true);
+const SectionFaq = ({ faq }: SectionFaqProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const OTHER_CATEGORY = "อื่น ๆ";
-
-  // Fetch FAQ data client-side using sheethuahua
-  useEffect(() => {
-    const fetchFaq = async () => {
-      try {
-        const data = await Spreadsheet(
-          "13OwS0IBx1RTOYcBaANpLsKwsvnl1frRxLRsl5R4L31g"
-        ).get("faq", schema);
-        setFaq(data.filter((item) => item.question)); // Filter out empty rows
-      } catch (error) {
-        console.error("Failed to fetch FAQ:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFaq();
-  }, []);
 
   // Extract unique categories from FAQ data
   const categories = useMemo(() => {
@@ -86,30 +63,6 @@ const SectionFaq = () => {
     setSelectedCategory(category);
     setExpandedIndex(null); // Reset expanded state when changing category
   };
-
-  if (loading) {
-    return (
-      <div className="bg-base-200">
-        <Container className="py-20">
-          <div className="flex flex-col gap-10 items-center justify-center">
-            <div className="flex flex-col gap-5 items-center justify-center">
-              <Image
-                src="/icons/ark-q.svg"
-                alt="FAQ Icon"
-                width={36}
-                height={36}
-                className="mx-auto"
-              />
-              <p className="typo-heading-mobile-03 text-neutral">
-                คำถามที่พบบ่อย
-              </p>
-            </div>
-            <div className="animate-pulse text-neutral">กำลังโหลด...</div>
-          </div>
-        </Container>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-base-200">
@@ -173,13 +126,13 @@ const SectionFaq = () => {
                     <p
                       className={`typo-body-03-semibold text-neutral hover:text-green-1 transition-all`}
                     >
-                      {index + 1}. [คำถาม] {item.question}
+                      {index + 1}. {item.question}
                     </p>
 
                     {/* Answer - visible when expanded */}
                     {expandedIndex === index && (
-                      <p className="typo-body-03 text-neutral mt-4">
-                        [คำตอบ] {item.answer}
+                      <p className="typo-body-03 text-neutral mt-4 whitespace-pre-line">
+                        {item.answer}
                       </p>
                     )}
                   </div>

@@ -50,7 +50,7 @@ const SectionMap = ({ map }: SectionMapProps) => {
           <div
             className="bg-neutral border-2 border-neutral w-full rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer "
             onClick={() =>
-              window.open("https://volunteers.conforall.com/", "_blank")
+              window.open("https://volunteer.conforall.com/", "_blank")
             }
           >
             <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">

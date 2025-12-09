@@ -33,7 +33,7 @@ const SectionBanner = () => {
             รู้จักเรา
           </p>
         </div>
-        <div className="md:flex items-center gap-10 md:py-0 py-10">
+        <div className="md:flex items-center gap-6 md:py-0 py-10">
           <Image
             src="/images/banner-logo.svg"
             alt="Referendum Logo"
@@ -42,10 +42,8 @@ const SectionBanner = () => {
             className="mx-auto mb-8 w-lg"
           />
           <div>
-            <h1 className="text-4xl text-center mb-4 typo-heading-mobile-01">
-              เส้นทางสู่ประชามติ
-              <br />
-              รัฐธรรมนูญใหม่ ต้องการคุณ
+            <h1 className="text-center mb-4 typo-heading-mobile-01">
+              เส้นทางสู่ประชามติรัฐธรรมนูญใหม่ <br /> ต้องการคุณ
             </h1>
             <div className="w-full">
               <div className="grid grid-cols-2 gap-[5px]">
@@ -99,7 +97,7 @@ const SectionBanner = () => {
                       className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit h-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
                       onClick={() =>
                         window.open(
-                          "https://volunteers.conforall.com/",
+                          "https://volunteer.conforall.com/",
                           "_blank"
                         )
                       }

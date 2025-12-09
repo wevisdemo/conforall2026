@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { MapItemWithProvince } from "@/src/services/type";
+import { FaqItem, MapItemWithProvince } from "@/src/services/type";
 import SectionBanner from "./components/SectionBanner";
 import SectionDetail from "./components/SectionDetail";
 import SectionDreamCon from "./components/SectionDreamCon";
@@ -12,10 +12,11 @@ import Chatbot from "./components/Chatbot";
 import Image from "next/image";
 
 interface HomePageProps {
+  faq: FaqItem[];
   map: MapItemWithProvince[];
 }
 
-export default function HomePage({ map }: HomePageProps) {
+export default function HomePage({ faq, map }: HomePageProps) {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   // console.log(map);
   return (
@@ -47,7 +48,7 @@ export default function HomePage({ map }: HomePageProps) {
       </section>
 
       <section id="faq">
-        <SectionFaq />
+        <SectionFaq faq={faq} />
       </section>
 
       <section id="new">
