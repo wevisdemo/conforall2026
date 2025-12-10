@@ -487,108 +487,111 @@ export default function GeoJSONMap({
           </div>
           <p className="typo-body-03-normal text-base-300">หรือ กดจากแผนที่</p>
 
-          {/* Selected marker data */}
-          {selectedMarkerIndex !== null &&
-            filteredMapPoints[selectedMarkerIndex] && (
-              <div className="p-4 bg-base-100 rounded-lg border-2 border-base-200 h-full">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center justify-center gap-1">
-                    <p className="typo-body-01-semibold text-neutral">
-                      เขตเลือกตั้งที่
-                    </p>
-                    <div className="w-6 h-6 border-2 border-neutral rounded-full flex items-center justify-center">
+          {/* Province data - show all election districts when province is selected */}
+          {selectedFeature && filteredMapPoints.length > 0 && (
+            <div className="max-h-[380px] overflow-y-auto flex flex-col gap-3">
+              {filteredMapPoints.map((point, index) => (
+                <div
+                  key={index}
+                  onClick={() =>
+                    setSelectedMarkerIndex(
+                      selectedMarkerIndex === index ? null : index
+                    )
+                  }
+                  className={`p-4 bg-base-100 rounded-lg border-2 cursor-pointer transition-all border-base-200 `}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-center gap-1">
                       <p className="typo-body-01-semibold text-neutral">
-                        {filteredMapPoints[selectedMarkerIndex].name_id
-                          ?.split("_")
-                          .pop()}
+                        เขตเลือกตั้งที่
                       </p>
+                      <div
+                        className={`w-6 h-6 border-2 rounded-full flex items-center justify-center border-neutral `}
+                      >
+                        <p className={`typo-body-01-semibold text-neutral`}>
+                          {point.name_id?.split("_").pop()}
+                        </p>
+                      </div>
                     </div>
                   </div>
-
-                  <button
-                    onClick={() => setSelectedMarkerIndex(null)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div className="flex flex-col gap-[5px]">
-                  {filteredMapPoints[selectedMarkerIndex].name_location && (
-                    <p className="typo-body-03-semibold text-neutral mb-2">
-                      {filteredMapPoints[selectedMarkerIndex].name_location}
-                    </p>
-                  )}
-                  {filteredMapPoints[selectedMarkerIndex].date && (
-                    <div>
-                      <p className="typo-body-01-semibold text-neutral">
-                        วันและเวลาที่เปิด
+                  <div className="flex flex-col gap-[5px]">
+                    {point.name_location && (
+                      <p className="typo-body-03-semibold text-neutral mb-2">
+                        {point.name_location}
                       </p>
-                      <p className="typo-body-02-normal text-neutral">
-                        {filteredMapPoints[selectedMarkerIndex].date}
-                      </p>
-                    </div>
-                  )}
-                  {filteredMapPoints[selectedMarkerIndex].map_detail && (
-                    <div>
-                      <p className="typo-body-01-semibold text-neutral">
-                        อธิบายการเดินทาง
-                      </p>
-                      <p className="typo-body-02-normal text-neutral">
-                        {filteredMapPoints[selectedMarkerIndex].map_detail}
-                      </p>
-                    </div>
-                  )}
-                  {filteredMapPoints[selectedMarkerIndex].map_url && (
-                    <a
-                      href={filteredMapPoints[selectedMarkerIndex].map_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="typo-link-02 text-green-1 underline"
-                    >
-                      ดูแผนที่
-                    </a>
-                  )}
-                  <p className="typo-body-01-normal text-base-300">
-                    หรือติดต่อ
-                  </p>
-                  {filteredMapPoints[selectedMarkerIndex].name && (
-                    <p className="typo-body-02-semibold text-base-300">
-                      {filteredMapPoints[selectedMarkerIndex].name}
-                    </p>
-                  )}
-                  {filteredMapPoints[selectedMarkerIndex].tel && (
-                    <ul className="flex flex-col gap-[5px]">
-                      <li className="flex items-center  gap-1">
-                        <div className="w-1.5 h-1.5 bg-base-300 rounded-full mx-2"></div>
-                        <p className="typo-body-02-normal text-base-300">
-                          {filteredMapPoints[selectedMarkerIndex].tel}
+                    )}
+                    {point.date && (
+                      <div>
+                        <p className="typo-body-01-semibold text-neutral">
+                          วันและเวลาที่เปิด
                         </p>
-                      </li>
-                      {filteredMapPoints[selectedMarkerIndex].detail && (
-                        <li className="flex items-center  gap-1">
+                        <p className="typo-body-02-normal text-neutral">
+                          {point.date}
+                        </p>
+                      </div>
+                    )}
+                    {point.map_detail && (
+                      <div>
+                        <p className="typo-body-01-semibold text-neutral">
+                          อธิบายการเดินทาง
+                        </p>
+                        <p className="typo-body-02-normal text-neutral">
+                          {point.map_detail}
+                        </p>
+                      </div>
+                    )}
+                    {point.map_url && (
+                      <a
+                        href={point.map_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="typo-link-02 text-green-1 underline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        ดูแผนที่
+                      </a>
+                    )}
+                    <p className="typo-body-01-normal text-base-300">
+                      หรือติดต่อ
+                    </p>
+                    {point.name && (
+                      <p className="typo-body-02-semibold text-base-300">
+                        {point.name}
+                      </p>
+                    )}
+                    {point.tel && (
+                      <ul className="flex flex-col gap-[5px]">
+                        <li className="flex items-center gap-1">
                           <div className="w-1.5 h-1.5 bg-base-300 rounded-full mx-2"></div>
                           <p className="typo-body-02-normal text-base-300">
-                            {filteredMapPoints[selectedMarkerIndex].detail}
+                            {point.tel}
                           </p>
                         </li>
-                      )}
-                    </ul>
-                  )}
+                        {point.detail && (
+                          <li className="flex items-center gap-1">
+                            <div className="w-1.5 h-1.5 bg-base-300 rounded-full mx-2"></div>
+                            <p className="typo-body-02-normal text-base-300">
+                              {point.detail}
+                            </p>
+                          </li>
+                        )}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
+          )}
+
+          {/* No data message when province selected but no points */}
+          {selectedFeature && filteredMapPoints.length === 0 && (
+            <div className="p-4 bg-base-100 rounded-lg border-2 border-base-200">
+              <p className="typo-body-03-normal text-base-300 text-center">
+                ไม่พบข้อมูลเขตเลือกตั้งในจังหวัด{" "}
+                {selectedFeature.properties?.pro_th}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

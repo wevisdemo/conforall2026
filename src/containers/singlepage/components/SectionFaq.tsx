@@ -7,9 +7,10 @@ import { useState, useMemo, useEffect } from "react";
 
 interface SectionFaqProps {
   faq: FaqItem[];
+  onOpenChatbot?: () => void;
 }
 
-const SectionFaq = ({ faq }: SectionFaqProps) => {
+const SectionFaq = ({ faq, onOpenChatbot }: SectionFaqProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -139,6 +140,23 @@ const SectionFaq = ({ faq }: SectionFaqProps) => {
                 <div className="w-full h-[2px] bg-primary"></div>
               </div>
             ))}
+          </div>
+          <div
+            className="bg-yellow-1 border-2 border-yellow-1 rounded-lg  hover:border-2 hover:border-neutral transition-all w-full max-w-3xl cursor-pointer"
+            onClick={onOpenChatbot}
+          >
+            <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
+              <p className="typo-body-03-semibold  text-neutral">
+                ทักคุยกับเรา
+              </p>
+              <Image
+                src="/icons/ark-q.svg"
+                alt="FAQ Icon"
+                width={16}
+                height={16}
+                className="h-4"
+              />
+            </div>
           </div>
         </div>
       </Container>

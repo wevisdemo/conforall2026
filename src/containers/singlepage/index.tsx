@@ -53,7 +53,7 @@ export default function HomePage({ faq, map, ectCount }: HomePageProps) {
       </section>
 
       <section id="faq">
-        <SectionFaq faq={faq} />
+        <SectionFaq faq={faq} onOpenChatbot={() => setIsChatbotOpen(true)} />
       </section>
 
       <section id="new">
