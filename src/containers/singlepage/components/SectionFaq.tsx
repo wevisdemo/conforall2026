@@ -82,7 +82,7 @@ const SectionFaq = ({ faq, onOpenChatbot }: SectionFaqProps) => {
             </p>
           </div>
 
-          {/* Category Filter Pills */}
+          {/* Category Filter */}
           <div className="w-full">
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide flex-wrap justify-center items-center">
               {categories.map((category) => (
