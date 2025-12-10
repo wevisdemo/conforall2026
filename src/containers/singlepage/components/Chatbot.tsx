@@ -36,7 +36,17 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Generate a stable userId per session
-  const userId = useMemo(() => crypto.randomUUID(), []);
+  const userId = useMemo(() => {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    // Fallback for environments without crypto.randomUUID
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -115,12 +125,12 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
 
   return (
     <div
-      className={`fixed inset-0 m-2.5 md:m-0 md:inset-auto md:bottom-24 md:right-5 w-auto md:w-[340px] bg-white border-2 border-neutral rounded-2xl shadow-2xl overflow-hidden z-9999 transition-all duration-300 ${
-        isMinimized ? "h-14" : "h-auto md:h-[550px]"
+      className={`fixed inset-0 m-2.5 md:m-0 md:inset-auto md:bottom-24 md:right-5 w-auto md:w-[340px] bg-white border-2 border-neutral rounded-2xl shadow-2xl overflow-hidden z-9999 transition-all duration-300 flex flex-col ${
+        isMinimized ? "h-14" : "md:h-[550px]"
       }`}
     >
       {/* Header */}
-      <div className="bg-yellow-1 px-4 py-3 flex items-center justify-between">
+      <div className="bg-yellow-1 px-4 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
           <Image
             src="/icons/ark-q.svg"
@@ -151,7 +161,7 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
       {!isMinimized && (
         <>
           {/* Messages Area */}
-          <div className="flex-1 h-[calc(100vh-160px)] md:h-[400px] overflow-y-auto p-4 space-y-4 bg-white">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 bg-white">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -212,7 +222,7 @@ export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
           </div>
 
           {/* Input Area */}
-          <div className="p-4 border-t border-base-200 bg-white">
+          <div className="p-4 border-t border-base-200 bg-white shrink-0">
             <div className="flex items-center gap-3">
               <input
                 type="text"
