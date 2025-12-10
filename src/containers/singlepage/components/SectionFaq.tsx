@@ -154,7 +154,7 @@ const SectionFaq = ({ faq, onOpenChatbot }: SectionFaqProps) => {
                 alt="FAQ Icon"
                 width={16}
                 height={16}
-                className="h-4"
+                className="h-5 w-5 md:mt-1"
               />
             </div>
           </div>
