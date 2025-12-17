@@ -49,9 +49,9 @@ const SectionBanner = () => {
               <div className="grid grid-cols-2 gap-[5px]">
                 <div className="col-span-1">
                   <div
-                    className="bg-yellow-1 border-2 border-green-1 rounded-[0.8rem] h-full relative"
+                    className="bg-yellow-1 border-2 border-green-1 rounded-[0.8rem] h-full relative hover:border-2 hover:border-neutral transition-all cursor-pointer"
                     // hover:border-2 hover:border-neutral transition-all h-full cursor-pointer
-                    // onClick={() => router.push("#detail")}
+                    onClick={() => router.push("#detail")}
                   >
                     <p className="typo-body-03-semibold mt-2.5 mb-2.5 ml-4 mr-4 text-neutral">
                       ต้องกาอย่างไร?
@@ -63,13 +63,13 @@ const SectionBanner = () => {
                       height={113.5}
                       className="mx-auto"
                     />
-                    <div className="absolute inset-0 bg-green-1/90 rounded-lg flex items-center justify-center">
+                    {/* <div className="absolute inset-0 bg-green-1/90 rounded-lg flex items-center justify-center">
                       <p className="typo-body-03-semibold text-base-100 text-center">
                         รอ ครม.
                         <br />
                         เคาะคำถามอยู่
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="col-span-1">

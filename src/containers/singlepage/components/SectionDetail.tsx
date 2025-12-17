@@ -24,26 +24,24 @@ const SectionDetail = () => {
           <p className="typo-heading-mobile-01 text-neutral text-center">
             รายละเอียดคำถาม
           </p>
-          <div className="w-full h-[200px] bg-base-100 flex items-center justify-center">
+          {/* <div className="w-full h-[200px] bg-base-100 flex items-center justify-center">
             <p className="text-neutral">img</p>
-          </div>
+          </div> */}
           <div className="w-full flex flex-col gap-5 justify-center items-center">
             <Divider label="คำถามข้อที่ 1" />
             <p className="typo-heading-mobile-01 text-neutral text-center">
-              “Lorem ipsum dolor sit amet consectetur. Ut sapien tempus sem
-              ipsum. Vitae dignissim nec et quis eget.”
+              ท่านเห็นชอบหรือไม่ที่จะจัดทำรัฐธรรมนูญฉบับใหม่
             </p>
 
             <div className="p-2.5 bg-green-1 w-fit">
               <p className="typo-heading-mobile-02 text-neutral">เห็นชอบ</p>
             </div>
             <p className="typo-body-03 text-neutral text-center">
-              เพราะ Lorem ipsum dolor sit amet consectetur. Congue nascetur
-              blandit iaculis habitant nibh. Massa in et et imperdiet. Bibendum
-              turpis gravida turpis eget eget tristique et.
+              เพื่อออกจากระบบการเมืองของคณะรัฐประหาร
+              เปิดทางเปลี่ยนอนาคตด้วยมือประชาชนเอง
             </p>
           </div>
-          <div className="w-full flex flex-col gap-5 justify-center items-center">
+          {/* <div className="w-full flex flex-col gap-5 justify-center items-center">
             <Divider label="คำถามข้อที่ 2" />
             <p className="typo-heading-mobile-01 text-neutral text-center">
               “Lorem ipsum dolor sit amet consectetur. Ut sapien tempus sem
@@ -58,7 +56,7 @@ const SectionDetail = () => {
               blandit iaculis habitant nibh. Massa in et et imperdiet. Bibendum
               turpis gravida turpis eget eget tristique et.
             </p>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>
