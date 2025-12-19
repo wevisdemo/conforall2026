@@ -21,14 +21,14 @@ const SectionDetail = () => {
               ใหม่”
             </p>
           </div>
-          <p className="typo-heading-mobile-01 text-neutral text-center">
+          {/* <p className="typo-heading-mobile-01 text-neutral text-center">
             รายละเอียดคำถาม
-          </p>
+          </p> */}
           {/* <div className="w-full h-[200px] bg-base-100 flex items-center justify-center">
             <p className="text-neutral">img</p>
           </div> */}
           <div className="w-full flex flex-col gap-5 justify-center items-center">
-            <Divider label="คำถามข้อที่ 1" />
+            <Divider label="คำถามประชามติ" />
             <p className="typo-heading-mobile-01 text-neutral text-center">
               ท่านเห็นชอบหรือไม่ที่จะจัดทำรัฐธรรมนูญฉบับใหม่
             </p>
