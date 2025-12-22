@@ -24,9 +24,16 @@ const SectionDetail = () => {
           {/* <p className="typo-heading-mobile-01 text-neutral text-center">
             รายละเอียดคำถาม
           </p> */}
-          {/* <div className="w-full h-[200px] bg-base-100 flex items-center justify-center">
-            <p className="text-neutral">img</p>
-          </div> */}
+          <div className="w-full md:h-[400px] h-[250px] flex items-center justify-center">
+            <Image
+              src="/images/card-check.jpg"
+              alt="Section Detail Image"
+              width={200}
+              height={200}
+              className="md:h-[400px] h-[250px] object-cover w-auto"
+            />
+          </div>
+
           <div className="w-full flex flex-col gap-5 justify-center items-center">
             <Divider label="คำถามประชามติ" />
             <p className="typo-heading-mobile-01 text-neutral text-center">
