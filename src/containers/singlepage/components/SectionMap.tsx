@@ -14,7 +14,7 @@ interface SectionMapProps {
 
 const SectionMap = ({ map, ectCount }: SectionMapProps) => {
   // Data now comes with lat, lng, and province already processed
-  console.log(map);
+  // console.log(map);
 
   return (
     <div className="bg-base-100">
@@ -29,11 +29,10 @@ const SectionMap = ({ map, ectCount }: SectionMapProps) => {
             </p>
             <div className="flex flex-col gap-2.5 items-center justify-center">
               <p className="typo-heading-mobile-01 text-neutral">
-                มีจุดรณรงค์แล้วใน {map.filter((item) => item.name_id).length}{" "}
-                เขต
+                มีจุดรณรงค์แล้ว {map.filter((item) => item.name_id).length} จุด
               </p>
               <p className="typo-body-03-semibold text-neutral">
-                จาก 400 เขตเลือกตั้งทั่วประเทศ
+                ใน 400 เขตเลือกตั้งทั่วประเทศ
               </p>
               <div className="flex items-center justify-center gap-[5px]">
                 <div className="w-3.5 h-3.5 bg-yellow-1 border border-neutral"></div>
