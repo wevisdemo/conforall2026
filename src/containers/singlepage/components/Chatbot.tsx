@@ -15,7 +15,7 @@ interface ChatbotProps {
 }
 
 const CHATBOT_API_URL =
-  "https://boonmeelab.app.n8n.cloud/webhook/41baf3d8-9bf4-401b-b4f9-a2e4735406aa";
+  "https://automation.playground.meeboon.dev/webhook/7f3e950b-9e6a-4607-96bf-f35d30dbc5cb";
 
 export default function Chatbot({ isOpen, onClose }: ChatbotProps) {
   const [isMinimized, setIsMinimized] = useState(false);
