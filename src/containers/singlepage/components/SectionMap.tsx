@@ -2,6 +2,7 @@ import Container from "@/src/components/Container";
 import { MapItemWithProvince, ECTCountByProvince } from "@/src/services/type";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import React from "react";
 
 const MapComponent = dynamic(() => import("./SectiontestMap"), {
   ssr: false,
@@ -14,7 +15,6 @@ interface SectionMapProps {
 
 const SectionMap = ({ map, ectCount }: SectionMapProps) => {
   // Data now comes with lat, lng, and province already processed
-  // console.log(map);
 
   return (
     <div className="bg-base-100">
@@ -32,7 +32,15 @@ const SectionMap = ({ map, ectCount }: SectionMapProps) => {
                 มีจุดรณรงค์แล้ว {map.filter((item) => item.name_id).length} จุด
               </p>
               <p className="typo-body-03-semibold text-neutral">
-                ใน 400 เขตเลือกตั้งทั่วประเทศ
+                ใน{" "}
+                {
+                  new Set(
+                    map
+                      .filter((item) => item.name_id)
+                      .map((item) => item.name_id)
+                  ).size
+                }{" "}
+                เขตเลือกตั้งทั่วประเทศ
               </p>
               <div className="flex items-center justify-center gap-[5px]">
                 <div className="w-3.5 h-3.5 bg-yellow-1 border border-neutral"></div>
