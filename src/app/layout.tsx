@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "Referendum",
     images: [
       {
-        url: "/images/og-image.png",
+        url: "/images/og-img.png",
         width: 1200,
         height: 630,
         alt: "เส้นทางสู่ประชามติรัฐธรรมนูญใหม่",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "เส้นทางสู่ประชามติรัฐธรรมนูญใหม่ ต้องการคุณ",
     description:
       "ร่วมเป็นส่วนหนึ่งในการประชามติรัฐธรรมนูญใหม่ ค้นหาจุดรณรงค์ สมัครเป็นจุดรณรงค์ และติดตามข้อมูลข่าวสารล่าสุด",
-    images: ["/images/og-image.png"],
+    images: ["/images/og-img.png"],
   },
 };
 
