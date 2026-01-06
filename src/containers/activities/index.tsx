@@ -268,7 +268,7 @@ const Activities = ({ greenEvent }: { greenEvent: DataGreenItem[] }) => {
     });
   }, [groupedEvents]);
 
-  console.log(greenEvent);
+  // console.log(greenEvent);
 
   return (
     <div className="bg-base-100 min-h-screen">
