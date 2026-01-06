@@ -45,43 +45,321 @@ const SectionFooter = () => {
             มีคนหลายกลุ่มอาจไม่ได้คิดเห็นเหมือนพวกเรา
             ซึ่งเราก็อยากให้รัฐธรรมนูญใหม่เป็นไปเพื่อคนกลุ่มนั้นด้วย
           </p>
-          {/* <div className="flex flex-col gap-2.5 ">
+          <div className="flex flex-col gap-2.5 ">
             <p className="typo-body-03-semibold text-neutral text-center">
               Partners
             </p>
             <div className="flex gap-2 flex-wrap justify-center">
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
-              <div className="p-2 bg-base-200 flex items-center justify-center">
-                <p className="typo-body-02-normal text-base-300">logo</p>
-              </div>
+              <Image
+                src="/partner/actlab.jpg"
+                alt="actlab"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/aid.png"
+                alt="aid"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/beach-for-life.jpg"
+                alt="beach-for-life"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/call.jpg"
+                alt="call"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/can.jpg"
+                alt="can"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/conforall.png"
+                alt="conforall"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/cool.jpg"
+                alt="cool"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/cpcr.jpg"
+                alt="cpcr"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/crc.png"
+                alt="crc"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/enlaw.jpg"
+                alt="enlaw"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/fair.jpg"
+                alt="fair"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/gpopc.jpg"
+                alt="gpopc"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/greenpeace.jpg"
+                alt="greenpeace"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/HOC.jpg"
+                alt="HOC"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/idgn.jpg"
+                alt="idgn"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/ilaw.png"
+                alt="ilaw"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/ipam.jpg"
+                alt="ipam"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/knack.jpg"
+                alt="knack"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/ku-nerh.jpg"
+                alt="ku-nerh"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/lanna.jpg"
+                alt="lanna"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/lanner.png"
+                alt="lanner"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/mineore.jpeg"
+                alt="mineore"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/mos.jpg"
+                alt="mos"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/moved.jpg"
+                alt="moved"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/musum.png"
+                alt="musum"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/nerh.jpg"
+                alt="nerh"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/newrum.jpg"
+                alt="newrum"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/pdmt.jpg"
+                alt="pdmt"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/pmove.jpg"
+                alt="pmove"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/poor.jpg"
+                alt="poor"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/prp.png"
+                alt="prp"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/secure-ranger.jpg"
+                alt="secure-ranger"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/sher.jpg"
+                alt="sher"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/slum4.jpg"
+                alt="slum4"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/sysi.jpg"
+                alt="sysi"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/tamtang.jpg"
+                alt="tamtang"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/The Patani (ปาตานี).jpg"
+                alt="The Patani"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/the-isaan-record.jpg"
+                alt="the-isaan-record"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/thumb-rights.jpg"
+                alt="thumb-rights"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/Trans Equal.jpg"
+                alt="Trans Equal"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/we-fair.jpg"
+                alt="we-fair"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/we-watch.jpg"
+                alt="we-watch"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/wevis.jpeg"
+                alt="wevis"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
+              <Image
+                src="/partner/work.jpg"
+                alt="work"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
             </div>
-          </div> */}
+          </div>
         </div>
       </Container>
     </div>

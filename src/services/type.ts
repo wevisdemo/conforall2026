@@ -84,3 +84,34 @@ export interface ECTCountByProvince {
     ectIds: string[]; // All ECT IDs (ID_name) in province
   };
 }
+
+export interface DataGreenItem {
+  timestamp?: string;
+  activity_type?: string;
+  event_name?: string;
+  activity_link?: string;
+  location?: string;
+  map_url?: string;
+  date?: string;
+  time?: string;
+  description?: string;
+  coordinator?: string;
+  contact_number?: string;
+  shipping_address?: string;
+  image_link_1?: string;
+  image_link_2?: string;
+  image_link_3?: string;
+  image_link_4?: string;
+  image_link_5?: string;
+  published?: string;
+  province?: string;
+}
+
+export interface DataStickerItem {
+  timestamp?: string;
+  image_link?: string;
+}
+
+export interface DataHastagItem {
+  count?: string;
+}

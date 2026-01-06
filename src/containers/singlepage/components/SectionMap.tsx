@@ -1,8 +1,10 @@
+"use client";
 import Container from "@/src/components/Container";
 import { MapItemWithProvince, ECTCountByProvince } from "@/src/services/type";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const MapComponent = dynamic(() => import("./SectiontestMap"), {
   ssr: false,
@@ -15,17 +17,36 @@ interface SectionMapProps {
 
 const SectionMap = ({ map, ectCount }: SectionMapProps) => {
   // Data now comes with lat, lng, and province already processed
-
+  const router = useRouter();
   return (
     <div className="bg-base-100">
-      <Container className="py-20">
+      <div className="h-[40px] px-2">
+        <div className="flex items-center h-full gap-0.5">
+          <Image
+            src="/icons/arrow-back.svg"
+            alt="Arrow Left"
+            width={16}
+            height={16}
+            className="h-4"
+          />
+          <p
+            className="typo-link-01 text-green-1 cursor-pointer underline underline-offset-2"
+            onClick={() => router.push("/")}
+          >
+            กลับหน้าหลัก
+          </p>
+        </div>
+      </div>
+      <Container className="py-14">
         <div className="flex flex-col gap-10 items-center justify-center">
           <div className="flex flex-col gap-5 items-center justify-center">
             <p className="typo-heading-mobile-03 text-neutral">
               ค้นหาจุดรณรงค์
             </p>
             <p className="typo-body-03-normal text-neutral text-center">
-              เพื่อรับแผ่นพับและร่วมกิจกรรมต่างๆ
+              เพื่อรับแผ่นพับ สติ๊กเกอร์
+              <br className="md:hidden block" />
+              และร่วมกิจกรรมต่างๆ
             </p>
             <div className="flex flex-col gap-2.5 items-center justify-center">
               <p className="typo-heading-mobile-01 text-neutral">

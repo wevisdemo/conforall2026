@@ -28,14 +28,14 @@ const SectionBanner = () => {
         <div className="absolute top-4 right-4">
           <p
             onClick={() => router.push("#footer")}
-            className="typo-body-02-semibold text-base-100! underline cursor-pointer"
+            className="typo-body-02-semibold text-yellow-1! cursor-pointer"
           >
             รู้จักเรา
           </p>
         </div>
         <div className="md:flex items-center gap-6 md:py-0 py-10">
           <Image
-            src="/images/banner-logo.svg"
+            src="/images/logo_new.svg"
             alt="Referendum Logo"
             width={200}
             height={200}
@@ -46,8 +46,8 @@ const SectionBanner = () => {
               เส้นทางสู่ประชามติรัฐธรรมนูญใหม่ <br /> ต้องการคุณ
             </h1>
             <div className="w-full">
-              <div className="grid grid-cols-2 gap-[5px]">
-                <div className="col-span-1">
+              <div className="grid grid-cols-1 gap-[5px]">
+                {/* <div className="col-span-1">
                   <div
                     className="bg-yellow-1 border-2 border-green-1 rounded-[0.8rem] h-full relative hover:border-2 hover:border-neutral transition-all cursor-pointer"
                     // hover:border-2 hover:border-neutral transition-all h-full cursor-pointer
@@ -63,29 +63,29 @@ const SectionBanner = () => {
                       height={113.5}
                       className="mx-auto"
                     />
-                    {/* <div className="absolute inset-0 bg-green-1/90 rounded-lg flex items-center justify-center">
+                    <div className="absolute inset-0 bg-green-1/90 rounded-lg flex items-center justify-center">
                       <p className="typo-body-03-semibold text-base-100 text-center">
                         รอ ครม.
                         <br />
                         เคาะคำถามอยู่
                       </p>
-                    </div> */}
+                    </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-span-1">
-                  <div className="flex flex-col gap-[5px] h-full">
+                  <div className="flex  gap-[5px] w-full">
                     <div
-                      className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit h-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
-                      onClick={() => router.push("#map")}
+                      className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit w-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
+                      onClick={() => router.push("#new-slide")}
                     >
                       <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                         <p className="typo-body-03-semibold text-neutral">
-                          ค้นหา
+                          ร่วมรณรงค์
                           <br />
-                          จุดรณรงค์
+                          ไปกับเรา
                         </p>
                         <Image
-                          src="/icons/search.svg"
+                          src="/icons/icon-hand.svg"
                           alt="FAQ Icon"
                           width={16}
                           height={16}
@@ -94,22 +94,17 @@ const SectionBanner = () => {
                       </div>
                     </div>
                     <div
-                      className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit h-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
-                      onClick={() =>
-                        window.open(
-                          "https://volunteer.conforall.com/",
-                          "_blank"
-                        )
-                      }
+                      className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit w-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
+                      onClick={() => router.push("/gallery")}
                     >
                       <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                         <p className="typo-body-03-semibold text-neutral">
-                          สมัครเป็น
+                          ดูรูปงานรณ
                           <br />
-                          จุดรณรงค์
+                          รงค์
                         </p>
                         <Image
-                          src="/icons/export.svg"
+                          src="/icons/icon-img.svg"
                           alt="FAQ Icon"
                           width={16}
                           height={16}
@@ -152,6 +147,32 @@ const SectionBanner = () => {
                     </p>
                     <Image
                       src="/icons/loading.svg"
+                      alt="FAQ Icon"
+                      width={16}
+                      height={16}
+                      className="h-4"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="bg-green-2 border-2 border-green-2 rounded-lg  hover:border-2 hover:border-neutral transition-all h-full cursor-pointer"
+                  onClick={() =>
+                    window.open(
+                      "https://drive.google.com/drive/folders/17FAg-QNu4yKoU7GpfTOJEVKsQ0xgGYFe?fbclid=IwY2xjawPIlC1leHRuA2FlbQIxMABicmlkETFhb202eXZBZnFHZXF6WDJsc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvdhOatVlyHxbVlxty2xIhKlR8rCvZfACZMYtHny452MokSUQ3UiXpIqNvoc_aem_9EcSOidFnyKlEI7sa_78-A",
+                      "_blank"
+                    )
+                  }
+                >
+                  <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
+                    <p className="typo-body-03-semibold text-neutral">
+                      ดาวน์โหลดไฟล์
+                      <br />
+                      <span className="typo-body-02-normal">
+                        เพื่อผลิตของรณรงค์ด้วยตนเอง
+                      </span>
+                    </p>
+                    <Image
+                      src="/icons/export.svg"
                       alt="FAQ Icon"
                       width={16}
                       height={16}

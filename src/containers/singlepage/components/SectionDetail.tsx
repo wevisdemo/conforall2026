@@ -11,7 +11,7 @@ const SectionDetail = () => {
           <p className="typo-heading-mobile-03 text-neutral text-center">
             ต้องกาอย่างไร?
           </p>
-          <div className="md:w-[400px] md:h-[400px] w-[280px] h-[280px] rounded-full bg-green-1 flex items-center justify-center flex-col">
+          {/* <div className="md:w-[400px] md:h-[400px] w-[280px] h-[280px] rounded-full bg-green-1 flex items-center justify-center flex-col">
             <p className="text-neutral typo-body-02-semibold">จุดยืนของเรา</p>
             <p className="text-neutral typo-heading-mobile-03 text-center">
               “เห็นชอบ
@@ -20,22 +20,22 @@ const SectionDetail = () => {
               <br />
               ใหม่”
             </p>
-          </div>
+          </div> */}
           {/* <p className="typo-heading-mobile-01 text-neutral text-center">
             รายละเอียดคำถาม
           </p> */}
-          <div className="w-full md:h-[400px] h-[250px] flex items-center justify-center">
+          <div className="w-full max-w-[650px] flex items-center justify-center border border-neutral">
             <Image
-              src="/images/card-check.jpg"
+              src="/images/voteyes-new.png"
               alt="Section Detail Image"
               width={200}
               height={200}
-              className="md:h-[400px] h-[250px] object-cover w-auto"
+              className="object-cover w-full"
             />
           </div>
 
           <div className="w-full flex flex-col gap-5 justify-center items-center">
-            <Divider label="คำถามประชามติ" />
+            {/* <Divider label="คำถามประชามติ" />
             <p className="typo-heading-mobile-01 text-neutral text-center">
               ท่านเห็นชอบหรือไม่ที่จะจัดทำรัฐธรรมนูญฉบับใหม่
             </p>
@@ -46,6 +46,16 @@ const SectionDetail = () => {
             <p className="typo-body-03 text-neutral text-center">
               เพื่อออกจากระบบการเมืองของคณะรัฐประหาร
               เปิดทางเปลี่ยนอนาคตด้วยมือประชาชนเอง
+            </p> */}
+            <p className="typo-body-03-normal text-neutral text-center">
+              <span className="typo-body-03-semibold">กาเห็นชอบ</span>
+              เพื่อออกจากระบบการเมืองของ
+              <br />
+              คณะรัฐประหาร
+              <br />
+              เปิดทางเปลี่ยนอนาคตด้วยมือประชาชน
+              <br />
+              เอง
             </p>
           </div>
           {/* <div className="w-full flex flex-col gap-5 justify-center items-center">

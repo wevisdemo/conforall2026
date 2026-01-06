@@ -8,13 +8,27 @@ import {
   getECTCountByProvince,
   updateCoveredECT,
 } from "../lib/processMapItems";
+import { getDataGreen } from "../lib/getDataGreen";
+import { getDataSticker } from "../lib/getDataSticker";
+import { getDataHastag } from "../lib/getDataHastag";
 
 export default async function Home() {
-  const [faqData, dataMap, provincesData, ectData] = await Promise.all([
+  const [
+    faqData,
+    dataMap,
+    provincesData,
+    ectData,
+    dataGreen,
+    dataSticker,
+    dataHastag,
+  ] = await Promise.all([
     getFaqData(),
     getDataMap(),
     loadProvincesGeoJson(),
     loadECTGeoJson(),
+    getDataGreen(),
+    getDataSticker(),
+    getDataHastag(),
   ]);
 
   // Filter only published items
@@ -41,6 +55,9 @@ export default async function Home() {
       faq={faqData}
       map={mapWithProvince}
       ectCount={ectCountWithCovered}
+      dataGreen={dataGreen}
+      dataSticker={dataSticker}
+      dataHastag={dataHastag}
     />
   );
 }

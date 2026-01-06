@@ -4,6 +4,9 @@ import {
   FaqItem,
   MapItemWithProvince,
   ECTCountByProvince,
+  DataGreenItem,
+  DataStickerItem,
+  DataHastagItem,
 } from "@/src/services/type";
 import SectionBanner from "./components/SectionBanner";
 import SectionDetail from "./components/SectionDetail";
@@ -14,16 +17,27 @@ import SectionMap from "./components/SectionMap";
 import SectionNew from "./components/SectionNew";
 import Chatbot from "./components/Chatbot";
 import Image from "next/image";
+import SectionNewSlide from "./components/SectionNewSlide";
 
 interface HomePageProps {
   faq: FaqItem[];
   map: MapItemWithProvince[];
   ectCount: ECTCountByProvince;
+  dataGreen: DataGreenItem[];
+  dataSticker: DataStickerItem[];
+  dataHastag: DataHastagItem[];
 }
 
-export default function HomePage({ faq, map, ectCount }: HomePageProps) {
+export default function HomePage({
+  faq,
+  map,
+  ectCount,
+  dataGreen,
+  dataSticker,
+  dataHastag,
+}: HomePageProps) {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-  // console.log(map);
+  // console.log(dataGreen);
   return (
     <div>
       {/* Chatbot Toggle Button - hidden on mobile when chatbot is open */}
@@ -48,9 +62,18 @@ export default function HomePage({ faq, map, ectCount }: HomePageProps) {
         <SectionDetail />
       </section>
 
-      <section id="map">
-        <SectionMap map={map} ectCount={ectCount} />
+      <section id="new-slide">
+        <SectionNewSlide
+          map={map}
+          dataGreen={dataGreen}
+          dataSticker={dataSticker}
+          dataHastag={dataHastag}
+        />
       </section>
+
+      {/* <section id="map">
+        <SectionMap map={map} ectCount={ectCount} />
+      </section> */}
 
       <section id="faq">
         <SectionFaq faq={faq} onOpenChatbot={() => setIsChatbotOpen(true)} />
