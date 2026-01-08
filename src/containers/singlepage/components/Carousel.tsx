@@ -99,7 +99,7 @@ const Carousel = ({ items, type }: CarouselProps) => {
           ))}
         <div
           className="relative shrink-0 w-[120px] h-[120px] rounded-[5px] overflow-hidden snap-start"
-          onClick={() => router.push(`/gallery?tab=${type}`)}
+          onClick={() => window.open("https://gallery.conforall.com", "_blank")}
         >
           {/* Card content */}
           <div className="w-full h-full bg-green-2 flex items-center justify-center flex-col">

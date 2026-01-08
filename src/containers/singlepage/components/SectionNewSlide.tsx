@@ -150,23 +150,43 @@ const SectionNewSlide = ({
                 />
               </div>
             </div>
-
-            <div
-              className="flex gap-1  justify-center cursor-pointer"
-              onClick={() =>
-                window.open(
-                  "https://docs.google.com/forms/d/e/1FAIpQLSe3GCOQnHO0xcCNDydrRRhS86U4OsL6vxVojGYWIq2hFJeVGw/viewform"
-                )
-              }
-            >
-              <p className="typo-body-02-semibold text-yellow-1 ">สมัครเพิ่ม</p>
-              <Image
-                src="/icons/export-yellow.svg"
-                alt="Plus Icon"
-                width={16}
-                height={16}
-                className="h-4"
-              />
+            <div className="flex gap-2 justify-center">
+              <div
+                className="flex gap-1  justify-center cursor-pointer"
+                onClick={() =>
+                  window.open(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSe3GCOQnHO0xcCNDydrRRhS86U4OsL6vxVojGYWIq2hFJeVGw/viewform"
+                  )
+                }
+              >
+                <p className="typo-body-02-semibold text-yellow-1 ">
+                  สมัครเพิ่ม
+                </p>
+                <Image
+                  src="/icons/export-yellow.svg"
+                  alt="Plus Icon"
+                  width={16}
+                  height={16}
+                  className="h-4"
+                />
+              </div>
+              <div
+                className="flex gap-1  justify-center cursor-pointer"
+                onClick={() =>
+                  window.open("https://gallery.conforall.com", "_blank")
+                }
+              >
+                <p className="typo-body-02-semibold text-yellow-1">
+                  อัปโหลดภาพ
+                </p>
+                <Image
+                  src="/icons/export-yellow.svg"
+                  alt="Plus Icon"
+                  width={16}
+                  height={16}
+                  className="h-4"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -260,22 +280,43 @@ const SectionNewSlide = ({
               </div>
             </div>
 
-            <div
-              className="flex gap-1  justify-center cursor-pointer"
-              onClick={() =>
-                window.open(
-                  "https://docs.google.com/forms/d/e/1FAIpQLSe3GCOQnHO0xcCNDydrRRhS86U4OsL6vxVojGYWIq2hFJeVGw/viewform"
-                )
-              }
-            >
-              <p className="typo-body-02-semibold text-yellow-1">สมัครเพิ่ม</p>
-              <Image
-                src="/icons/export-yellow.svg"
-                alt="Plus Icon"
-                width={16}
-                height={16}
-                className="h-4"
-              />
+            <div className="flex gap-2 justify-center">
+              <div
+                className="flex gap-1  justify-center cursor-pointer"
+                onClick={() =>
+                  window.open(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSe3GCOQnHO0xcCNDydrRRhS86U4OsL6vxVojGYWIq2hFJeVGw/viewform"
+                  )
+                }
+              >
+                <p className="typo-body-02-semibold text-yellow-1">
+                  สมัครเพิ่ม
+                </p>
+                <Image
+                  src="/icons/export-yellow.svg"
+                  alt="Plus Icon"
+                  width={16}
+                  height={16}
+                  className="h-4"
+                />
+              </div>
+              <div
+                className="flex gap-1  justify-center cursor-pointer"
+                onClick={() =>
+                  window.open("https://gallery.conforall.com", "_blank")
+                }
+              >
+                <p className="typo-body-02-semibold text-yellow-1">
+                  อัปโหลดภาพ
+                </p>
+                <Image
+                  src="/icons/export-yellow.svg"
+                  alt="Plus Icon"
+                  width={16}
+                  height={16}
+                  className="h-4"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -341,20 +382,42 @@ const SectionNewSlide = ({
               </div>
             </div>
 
-            <div
-              className="flex gap-1  justify-center cursor-pointer"
-              onClick={() =>
-                window.open("https://volunteer.conforall.com/apply/")
-              }
-            >
-              <p className="typo-body-02-semibold text-yellow-1">สมัครเพิ่ม</p>
-              <Image
-                src="/icons/export-yellow.svg"
-                alt="Plus Icon"
-                width={16}
-                height={16}
-                className="h-4"
-              />
+            <div className="flex gap-2 justify-center">
+              <div
+                className="flex gap-1  justify-center cursor-pointer"
+                onClick={() =>
+                  window.open("https://volunteer.conforall.com/apply/")
+                }
+              >
+                <p className="typo-body-02-semibold text-yellow-1">
+                  สมัครเพิ่ม
+                </p>
+                <Image
+                  src="/icons/export-yellow.svg"
+                  alt="Plus Icon"
+                  width={16}
+                  height={16}
+                  className="h-4"
+                />
+              </div>
+
+              <div
+                className="flex gap-1  justify-center cursor-pointer"
+                onClick={() =>
+                  window.open("https://gallery.conforall.com", "_blank")
+                }
+              >
+                <p className="typo-body-02-semibold text-yellow-1">
+                  อัปโหลดภาพ
+                </p>
+                <Image
+                  src="/icons/export-yellow.svg"
+                  alt="Plus Icon"
+                  width={16}
+                  height={16}
+                  className="h-4"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -440,9 +503,7 @@ const SectionNewSlide = ({
             <div
               className="flex gap-1  justify-center cursor-pointer"
               onClick={() =>
-                window.open(
-                  "https://docs.google.com/forms/d/e/1FAIpQLSf_STUmPL5nWqZHGN7jqBAUKAyyxyRfsErGzIO6DZg4FGGDLg/viewform"
-                )
+                window.open("https://gallery.conforall.com", "_blank")
               }
             >
               <p className="typo-body-02-semibold text-yellow-1">อัปโหลดภาพ</p>

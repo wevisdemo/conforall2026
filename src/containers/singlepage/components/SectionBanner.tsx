@@ -95,7 +95,9 @@ const SectionBanner = () => {
                     </div>
                     <div
                       className="bg-base-100 border-2 border-base-100 rounded-lg md:h-fit w-full hover:border-2 hover:border-neutral transition-all cursor-pointer"
-                      onClick={() => router.push("/gallery")}
+                      onClick={() =>
+                        window.open("https://gallery.conforall.com", "_blank")
+                      }
                     >
                       <div className="flex justify-between mt-2.5 mb-2.5 ml-4 mr-4 h-full">
                         <p className="typo-body-03-semibold text-neutral">
