@@ -379,6 +379,13 @@ const SectionFooter = () => {
                 height={44}
                 className="object-cover aspect-square"
               />
+               <Image
+                src="/partner/rsdn.jpg"
+                alt="rs"
+                width={44}
+                height={44}
+                className="object-cover aspect-square"
+              />
             </div>
           </div>
         </div>
