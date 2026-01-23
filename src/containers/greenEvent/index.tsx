@@ -147,12 +147,27 @@ const EventCard = ({ event }: { event: DataGreenItem }) => {
       {isExpanded && (
         <div className="pt-2 pb-4 text-neutral typo-body-01-normal bg-base-200  px-2.5">
           <div className="flex flex-col gap-1">
-            <div>
-              <p className="typo-body-01-semibold text-neutral">จัดโดย</p>
-              <p className="typo-body-01-normal text-neutral">
-                {event.coordinator || "-"}
-              </p>
-            </div>
+            {!isDatePast(event.date) && (
+              <div>
+                <p className="typo-body-01-semibold text-neutral">
+                  ผู้ประสานงาน
+                </p>
+                <p className="typo-body-01-normal text-neutral">
+                  {event.coordinator || "-"}
+                </p>
+              </div>
+            )}
+            {!isDatePast(event.date) && (
+              <div>
+                <p className="typo-body-01-semibold text-neutral">
+                  เบอร์ติดต่อ
+                </p>
+                <p className="typo-body-01-normal text-neutral">
+                  {event.contact_number || "-"}
+                </p>
+              </div>
+            )}
+
             <div>
               <p className="typo-body-01-semibold text-neutral">รายละเอียด</p>
               <p className="typo-body-01-normal text-neutral">
@@ -240,13 +255,13 @@ const GreenEvent = ({ greenEvent }: { greenEvent: DataGreenItem[] }) => {
     return greenEvent.filter(
       (event) =>
         event.province?.toLowerCase().includes(query) ||
-        event.event_name?.toLowerCase().includes(query)
+        event.event_name?.toLowerCase().includes(query),
     );
   }, [greenEvent, searchQuery]);
 
   const groupedEvents = useMemo(
     () => groupEventsByDate(filteredEvents),
-    [filteredEvents]
+    [filteredEvents],
   );
 
   // Sort dates: past dates first, then current/future
